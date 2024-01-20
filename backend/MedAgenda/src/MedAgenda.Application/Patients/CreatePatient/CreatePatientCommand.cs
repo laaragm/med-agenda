@@ -7,7 +7,8 @@ public record CreatePatientCommand(
 	string Name,
 	MedicalState MedicalState,
 	bool IsTermSigned,
-	Guid? ReferencePatientId, 
-	int? PeriodicityInDays, 
-	string? PhoneNumber) 
+	Guid createdBy,
+	Guid? ReferencePatientId,
+	int? PeriodicityInDays,
+	string? PhoneNumber)
 	: ICommand<Guid>;

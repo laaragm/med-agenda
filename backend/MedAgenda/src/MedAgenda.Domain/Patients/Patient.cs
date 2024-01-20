@@ -17,14 +17,14 @@ public sealed class Patient : Entity<PatientId>
 	public IsTermSigned IsTermSigned { get; private set; }
 	public PeriodicityInDays? PeriodicityInDays { get; private set; }
 
-	public Patient(
+	private Patient(
 		PatientId id,
 		Name name, 
 		PhoneNumber? phoneNumber, 
 		MedicalState medicalState, 
 		PatientId? referencePatientId, 
 		IsTermSigned isTermSigned,
-		PeriodicityInDays periodicityInDays,
+		PeriodicityInDays? periodicityInDays,
 		DateTime createdOn, 
 		Guid createdBy)
 		: base(id)
@@ -40,4 +40,31 @@ public sealed class Patient : Entity<PatientId>
 	}
 
 	private Patient() { }
+
+	public static Patient Create(
+		Name name, 
+		MedicalState medicalState,
+		IsTermSigned isTermSigned,
+		DateTime utcNow,
+		Guid createdBy,
+		PatientId? referencePatientId,
+		PeriodicityInDays? periodicityInDays,
+		PhoneNumber? phoneNumber)
+	{
+		var patient = new Patient(
+			PatientId.New(),
+			name,
+			phoneNumber,
+			medicalState,
+			referencePatientId,
+			isTermSigned,
+			periodicityInDays,
+			utcNow,
+			createdBy);
+		patient.UpdatedOn = utcNow;
+		patient.UpdatedBy = createdBy;
+
+		return patient;
+	}
+
 }
