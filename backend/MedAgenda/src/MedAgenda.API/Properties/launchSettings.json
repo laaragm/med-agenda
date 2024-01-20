@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "MedAgenda.API": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7280",
+      "launchBrowser": false
+    }
+  }
+}
