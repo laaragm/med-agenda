@@ -10,13 +10,13 @@ public sealed class Patient : Entity<PatientId>
 	public MedicalState MedicalState { get; private set; }
 	public PatientId? ReferencePatientId { get; private set; }
 	public List<Observation> Observations { get; private set; } = new();
+	public IsTermSigned IsTermSigned { get; private set; }
+	public PeriodicityInDays? PeriodicityInDays { get; private set; }
 	public DateTime CreatedOn { get; private set; }
 	public Guid CreatedBy { get; private set; }
 	public DateTime? UpdatedOn { get; private set; }
 	public Guid? UpdatedBy { get; private set; }
-	public IsTermSigned IsTermSigned { get; private set; }
-	public PeriodicityInDays? PeriodicityInDays { get; private set; }
-
+	
 	private Patient(
 		PatientId id,
 		Name name, 
@@ -66,5 +66,4 @@ public sealed class Patient : Entity<PatientId>
 
 		return patient;
 	}
-
 }
