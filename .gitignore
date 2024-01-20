@@ -1,0 +1,50 @@
+bin
+obj
+csx
+.vs
+edge
+Publish
+
+/tools/NuGet.exe
+/App_Data
+/secrets
+/data
+.secrets
+
+# Environment files
+.env
+.env.local
+appsettings.json
+local.settings.json
+
+# Azurite artifacts
+__blobstorage__
+__queuestorage__
+__azurite_db*__.json
+
+# Local testing
+_working
+.vscode/launch.json
+
+# Dependency directories
+node_modules/
+packages/*/node_modules/
+[Oo]bj/
+[Bb]in/
+
+# Build outputs
+dist/
+build/
+out/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.suo
+*.user
+*.userprefs
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
