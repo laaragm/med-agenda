@@ -15,4 +15,8 @@
 	<ItemGroup>
 		<ProjectReference Include="..\MedAgenda.Application\MedAgenda.Application.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Repositories\" />
+	</ItemGroup>
 </Project>
