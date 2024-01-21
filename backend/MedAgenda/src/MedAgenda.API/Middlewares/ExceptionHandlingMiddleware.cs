@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using MedAgenda.Application.Exceptions;
-using Microsoft.Azure.Functions.Worker.Middleware;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.Functions.Worker.Middleware;
 
 namespace MedAgenda.API.Middlewares;
 
@@ -21,6 +23,7 @@ internal sealed class ExceptionHandlingMiddleware : IFunctionsWorkerMiddleware
 			logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
 
 			var exceptionDetails = GetExceptionDetails(exception);
+			var response = context.GetHttpResponseData();
 			var problemDetails = new ProblemDetails
 			{
 				Status = exceptionDetails.Status,
@@ -32,48 +35,13 @@ internal sealed class ExceptionHandlingMiddleware : IFunctionsWorkerMiddleware
 			if (exceptionDetails.Errors is not null)
 				problemDetails.Extensions["errors"] = exceptionDetails.Errors;
 
-			//context.Response.StatusCode = exceptionDetails.Status;
-
-			//await context.Response.WriteAsJsonAsync(problemDetails);
+			if (response is not null)
+			{
+				response.StatusCode = (HttpStatusCode)exceptionDetails.Status;
+				await response.WriteAsJsonAsync(problemDetails);
+			}
 		}
 	}
-
-	//private readonly RequestDelegate _next;
-	//private readonly ILogger<ExceptionHandlingMiddleware> _logger;
-
-	//public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
-	//{
-	//	_next = next;
-	//	_logger = logger;
-	//}
-
-	//public async Task InvokeAsync(HttpContext context)
-	//{
-	//	try
-	//	{
-	//		await _next(context);
-	//	}
-	//	catch (Exception exception)
-	//	{
-	//		_logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
-
-	//		var exceptionDetails = GetExceptionDetails(exception);
-	//		var problemDetails = new ProblemDetails
-	//		{
-	//			Status = exceptionDetails.Status,
-	//			Type = exceptionDetails.Type,
-	//			Title = exceptionDetails.Title,
-	//			Detail = exceptionDetails.Detail,
-	//		};
-
-	//		if (exceptionDetails.Errors is not null)
-	//			problemDetails.Extensions["errors"] = exceptionDetails.Errors;
-
-	//		context.Response.StatusCode = exceptionDetails.Status;
-			
-	//		await context.Response.WriteAsJsonAsync(problemDetails);
-	//	}
-	//}
 
 	private static ExceptionDetails GetExceptionDetails(Exception exception)
 	{

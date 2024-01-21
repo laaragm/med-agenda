@@ -13,7 +13,6 @@ IConfiguration config = null!;
 var host = new HostBuilder()
 	.ConfigureFunctionsWorkerDefaults(workerApplication =>
 	{
-		//workerApplication.UseNewtonsoftJson();
 		workerApplication.UseMiddleware<ExceptionHandlingMiddleware>();
 	})
 	.ConfigureAppConfiguration(builder =>

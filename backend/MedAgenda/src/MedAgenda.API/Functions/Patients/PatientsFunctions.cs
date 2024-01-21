@@ -14,13 +14,13 @@ namespace MedAgenda.API.Functions.Patients
 		private const string Route = "patients";
 		private readonly ILogger _logger;
 		private readonly ISender _sender;
-		private readonly IOptions<JsonSerializerOptions> _jsonSerializerOptions;
+		private readonly JsonSerializerOptions _jsonOptions;
 
 		public Patients(ILoggerFactory loggerFactory, ISender sender, IOptions<JsonSerializerOptions> jsonSerializerOptions) : base(jsonSerializerOptions)
 		{
 			_logger = loggerFactory.CreateLogger<Patients>();
 			_sender = sender;
-			_jsonSerializerOptions = jsonSerializerOptions;
+			_jsonOptions = jsonSerializerOptions.Value;
 		}
 
 		[Function(nameof(CreatePatient))]
@@ -32,7 +32,7 @@ namespace MedAgenda.API.Functions.Patients
 			try
 			{
 				_logger.LogInformation("Triggered CreatePatient function.");
-				var patient = await JsonSerializer.DeserializeAsync<CreatePatientRequest>(req.Body, _jsonSerializerOptions.Value);
+				var patient = await JsonSerializer.DeserializeAsync<CreatePatientRequest>(req.Body, _jsonOptions);
 				if (patient is null)
 				{
 					_logger.LogError("Error deserializing patient");
