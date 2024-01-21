@@ -9,7 +9,6 @@ public sealed class Patient : Entity<PatientId>
 	public PhoneNumber? PhoneNumber { get; private set; }
 	public MedicalState MedicalState { get; private set; }
 	public PatientId? ReferencePatientId { get; private set; }
-	public List<Observation> Observations { get; private set; } = new();
 	public IsTermSigned IsTermSigned { get; private set; }
 	public PeriodicityInDays? PeriodicityInDays { get; private set; }
 	public DateTime CreatedOn { get; private set; }

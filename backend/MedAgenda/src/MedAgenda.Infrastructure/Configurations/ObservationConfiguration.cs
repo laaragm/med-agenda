@@ -9,7 +9,7 @@ internal sealed class ObservationConfiguration : IEntityTypeConfiguration<Observ
 {
 	public void Configure(EntityTypeBuilder<Observation> builder)
 	{
-		builder.ToTable("observations");
+		builder.ToTable("Observations");
 
 		builder.HasKey(observation => observation.Id);
 
