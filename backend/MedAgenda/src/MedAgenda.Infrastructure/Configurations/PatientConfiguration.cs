@@ -27,6 +27,9 @@ internal sealed class PatientConfiguration : IEntityTypeConfiguration<Patient>
 		builder.Property(patient => patient.MedicalState)
 			.HasConversion(medicalState => medicalState.Code, value => MedicalState.GetByCode(value));
 
+		builder.Property(patient => patient.ReferencePatientId)
+			.HasConversion(id => id != null ? id.Value : (Guid?)null, value => value != null ? new PatientId(value.Value) : null);
+
 		builder
 			.HasOne<Patient>() // A patient references another patient
 			.WithMany() // Referenced patient can be referenced by multiple patients
