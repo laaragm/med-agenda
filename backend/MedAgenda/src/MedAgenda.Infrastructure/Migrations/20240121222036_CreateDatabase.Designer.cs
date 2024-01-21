@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedAgenda.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240121141616_CreateDatabase")]
+    [Migration("20240121222036_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
@@ -48,11 +48,6 @@ namespace MedAgenda.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<long>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -99,10 +94,10 @@ namespace MedAgenda.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("Version")
+                    b.Property<byte[]>("Version")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bigint");
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 

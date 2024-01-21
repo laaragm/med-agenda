@@ -31,8 +31,5 @@ internal sealed class ObservationConfiguration : IEntityTypeConfiguration<Observ
 		builder.HasOne<Patient>() // An observation has one patient associated with it
 			.WithMany() // A patient can have many observations
 			.HasForeignKey(observation => observation.PatientId);
-
-		// Define a shadow property and instruct EF Core to interpret this column as a row version for implementing optimistic concurrency support
-		builder.Property<uint>("Version").IsRowVersion();
 	}
 }

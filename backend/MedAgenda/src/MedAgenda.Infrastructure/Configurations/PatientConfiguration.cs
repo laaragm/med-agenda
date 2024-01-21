@@ -48,6 +48,6 @@ internal sealed class PatientConfiguration : IEntityTypeConfiguration<Patient>
 		builder.Property(patient => patient.UpdatedOn);
 
 		// Define a shadow property and instruct EF Core to interpret this column as a row version for implementing optimistic concurrency support
-		builder.Property<uint>("Version").IsRowVersion();
+		builder.Property<byte[]>("Version").IsRowVersion();
 	}
 }
