@@ -28,10 +28,10 @@ public sealed class CreatePatientCommandHandler : ICommandHandler<CreatePatientC
 		{
 			var patient = Patient.Create(
 				new Name(request.Name),
-				request.MedicalState,
+				MedicalState.GetByCode(request.MedicalStateCode),
 				new IsTermSigned(request.IsTermSigned),
 				_dateTimeProvider.UtcNow,
-				request.createdBy,
+				request.CreatedBy,
 				request.ReferencePatientId.HasValue ? new PatientId(request.ReferencePatientId.Value) : null,
 				request.PeriodicityInDays.HasValue ? new PeriodicityInDays(request.PeriodicityInDays.Value) : null,
 				request.PhoneNumber != null ? new PhoneNumber(request.PhoneNumber) : null);

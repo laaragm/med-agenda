@@ -5,9 +5,9 @@ namespace MedAgenda.Application.Patients.CreatePatient;
 
 public record CreatePatientCommand(
 	string Name,
-	MedicalState MedicalState,
+	int MedicalStateCode,
 	bool IsTermSigned,
-	Guid createdBy,
+	Guid CreatedBy,
 	Guid? ReferencePatientId,
 	int? PeriodicityInDays,
 	string? PhoneNumber)
