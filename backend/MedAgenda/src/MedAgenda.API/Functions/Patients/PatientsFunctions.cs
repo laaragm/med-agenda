@@ -36,7 +36,7 @@ namespace MedAgenda.API.Functions.Patients
 				if (patient is null)
 				{
 					_logger.LogError("Error deserializing patient");
-					return await StringResponse(req, HttpStatusCode.BadRequest, "Error deserializing patient");
+					return await StringResponse(req, "Error deserializing patient", HttpStatusCode.BadRequest);
 				}
 
 				var createdBy = Guid.NewGuid(); // TODO: Get info from token
@@ -51,15 +51,14 @@ namespace MedAgenda.API.Functions.Patients
 				var result = await _sender.Send(command, cancellationToken);
 
 				if (result.IsFailure)
-					return await StringResponse(req, HttpStatusCode.BadRequest, "Error creating patient");
+					return await ErrorResponse(req, result.Error, HttpStatusCode.BadRequest);
 
-				return await OkObjectResponse(req, result);
+				return await SuccessResponse(req, result.Value, HttpStatusCode.Created);
 			}
-			catch (Exception e)
+			catch (Exception exception)
 			{
-				_logger.LogError(e, "Error creating patient");
-				return await StringResponse(req, HttpStatusCode.BadRequest, "Error creating patient");
-
+				_logger.LogError(exception, "Error creating patient");
+				return await HandleException(req, exception);
 			}
 		}
 	}

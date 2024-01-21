@@ -17,7 +17,7 @@ public class CreatePatientCommandValidator : AbstractValidator<CreatePatientComm
 			.WithMessage("Invalid Medical State Code.");
 
 		RuleFor(x => x.IsTermSigned)
-			.NotNull()
+			.NotEmpty()
 			.WithMessage("The status of the term must be specified.");
 	}
 

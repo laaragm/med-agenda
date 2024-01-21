@@ -7,14 +7,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MedAgenda.Application;
 using MedAgenda.Infrastructure;
-using MedAgenda.API.Middlewares;
 
 IConfiguration config = null!;
 var host = new HostBuilder()
-	.ConfigureFunctionsWorkerDefaults(workerApplication =>
-	{
-		workerApplication.UseMiddleware<ExceptionHandlingMiddleware>();
-	})
+	.ConfigureFunctionsWorkerDefaults()
 	.ConfigureAppConfiguration(builder =>
 	{
 		builder
