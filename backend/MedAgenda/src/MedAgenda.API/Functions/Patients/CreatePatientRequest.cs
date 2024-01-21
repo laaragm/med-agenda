@@ -1,5 +1,4 @@
-﻿
-namespace MedAgenda.API.Patients;
+﻿namespace MedAgenda.API.Functions.Patients;
 
 public sealed record CreatePatientRequest(
 	string Name,

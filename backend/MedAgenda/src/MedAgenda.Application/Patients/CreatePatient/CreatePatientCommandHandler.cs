@@ -12,10 +12,7 @@ public sealed class CreatePatientCommandHandler : ICommandHandler<CreatePatientC
 	private readonly IDateTimeProvider _dateTimeProvider;
 	private readonly IPatientRepository _patientRepository;
 
-	public CreatePatientCommandHandler(
-		IUnitOfWork unitOfWork,
-		IDateTimeProvider dateTimeProvider,
-		IPatientRepository patientRepository)
+	public CreatePatientCommandHandler(IUnitOfWork unitOfWork, IDateTimeProvider dateTimeProvider, IPatientRepository patientRepository)
 	{
 		_unitOfWork = unitOfWork;
 		_dateTimeProvider = dateTimeProvider;

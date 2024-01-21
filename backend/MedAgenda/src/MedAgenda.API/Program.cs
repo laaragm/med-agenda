@@ -5,13 +5,17 @@ using System.Text.Json.Serialization;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 using MedAgenda.Application;
 using MedAgenda.Infrastructure;
+using MedAgenda.API.Middlewares;
 
 IConfiguration config = null!;
 var host = new HostBuilder()
-	.ConfigureFunctionsWorkerDefaults(worker => worker.UseNewtonsoftJson())
+	.ConfigureFunctionsWorkerDefaults(workerApplication =>
+	{
+		//workerApplication.UseNewtonsoftJson();
+		workerApplication.UseMiddleware<ExceptionHandlingMiddleware>();
+	})
 	.ConfigureAppConfiguration(builder =>
 	{
 		builder
@@ -19,25 +23,29 @@ var host = new HostBuilder()
 			.AddEnvironmentVariables();
 		config = builder.Build();
 	})
-	.ConfigureServices(x =>
+	.ConfigureServices(services =>
 	{
-		x.AddApplicationInsightsTelemetryWorkerService();
-		x.ConfigureFunctionsApplicationInsights();
-		x.Configure<JsonSerializerOptions>(options =>
+		services.AddApplicationInsightsTelemetryWorkerService();
+		services.ConfigureFunctionsApplicationInsights();
+		services.Configure<JsonSerializerOptions>(options =>
 		{
 			options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 			options.Converters.Add(new JsonStringEnumConverter());
 			options.WriteIndented = true;
+			options.PropertyNameCaseInsensitive = true;
 		});
-		x.AddApplication();
-		x.AddInfrastructure(config);
-		x.Configure<LoggerFilterOptions>(options =>
+		services.AddApplication();
+		services.AddInfrastructure(config);
+	})
+	.ConfigureLogging(logging =>
+	{
+		logging.Services.Configure<LoggerFilterOptions>(options =>
 		{
 			// The Application Insights SDK adds a default logging filter that instructs ILogger to capture only Warning and more severe logs. Application Insights requires an explicit override.
 			// Log levels can also be configured using appsettings.json. For more information, see https://learn.microsoft.com/en-us/azure/azure-monitor/app/worker-service#ilogger-logs
-			var toRemove = options.Rules.FirstOrDefault(rule => rule.ProviderName == "Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider");
-			if (toRemove is not null)
-				options.Rules.Remove(toRemove);
+			var defaultRule = options.Rules.FirstOrDefault(rule => rule.ProviderName == "Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider");
+			if (defaultRule is not null)
+				options.Rules.Remove(defaultRule);
 		});
 	})
 	.Build();
