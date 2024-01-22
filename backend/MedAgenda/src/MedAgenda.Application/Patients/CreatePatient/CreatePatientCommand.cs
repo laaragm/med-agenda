@@ -1,9 +1,8 @@
-﻿using MedAgenda.Domain.Patients;
-using MedAgenda.Application.Abstractions.Messaging;
+﻿using MedAgenda.Application.Abstractions.Messaging;
 
 namespace MedAgenda.Application.Patients.CreatePatient;
 
-public record CreatePatientCommand(
+public sealed record CreatePatientCommand(
 	string Name,
 	int MedicalStateCode,
 	bool IsTermSigned,

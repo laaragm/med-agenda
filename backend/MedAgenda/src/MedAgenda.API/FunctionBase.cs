@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Azure.Functions.Worker.Http;
 using MedAgenda.Application.Exceptions;
-using static MedAgenda.API.FunctionBase;
 
 namespace MedAgenda.API;
 

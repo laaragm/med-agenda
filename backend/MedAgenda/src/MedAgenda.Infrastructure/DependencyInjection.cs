@@ -4,8 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using MedAgenda.Domain.Patients;
 using MedAgenda.Domain.Abstractions;
 using MedAgenda.Domain.Observations;
+using MedAgenda.Infrastructure.Data;
 using MedAgenda.Infrastructure.Clock;
 using MedAgenda.Infrastructure.Repositories;
+using MedAgenda.Application.Abstractions.Data;
 using MedAgenda.Application.Abstractions.Clock;
 
 namespace MedAgenda.Infrastructure;
@@ -34,5 +36,7 @@ public static class DependencyInjection
 		services.AddScoped<IObservationRepository, ObservationRepository>();
 
 		services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
+		services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
 	}
 }
