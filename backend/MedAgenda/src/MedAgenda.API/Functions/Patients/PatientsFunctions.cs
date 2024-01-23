@@ -8,6 +8,8 @@ using Microsoft.Azure.Functions.Worker.Http;
 using MedAgenda.Application.Patients.GetPatients;
 using MedAgenda.Application.Patients.CreatePatient;
 using MedAgenda.Application.Patients.DeletePatient;
+using Microsoft.AspNetCore.Routing;
+using MedAgenda.Application.Patients.GetPatient;
 
 namespace MedAgenda.API.Functions.Patients;
 
@@ -110,7 +112,33 @@ public class Patients : FunctionBase
 		}
 		catch (Exception exception)
 		{
-			_logger.LogError(exception, "Error deleting patient");
+			_logger.LogError(exception, $"Error deleting patient with id = {id}");
+			return await HandleException(req, exception);
+		}
+	}
+
+	[Function(nameof(GetPatient))]
+	public async Task<HttpResponseData> GetPatient([HttpTrigger(AuthorizationLevel.Function, "GET", Route = Route + "/{id}")]
+		HttpRequestData req,
+		FunctionContext context,
+		Guid id,
+		CancellationToken cancellationToken)
+	{
+		try
+		{
+			_logger.LogInformation("Triggered GetPatient function.");
+
+			var query = new GetPatientQuery(id);
+			var result = await _sender.Send(query, cancellationToken);
+
+			if (result.IsFailure)
+				return await ErrorResponse(req, result.Error, HttpStatusCode.NotFound);
+
+			return await SuccessResponse(req, result.Value, HttpStatusCode.OK);
+		}
+		catch (Exception exception)
+		{
+			_logger.LogError(exception, $"Error retrieving patient with id = {id}");
 			return await HandleException(req, exception);
 		}
 	}
