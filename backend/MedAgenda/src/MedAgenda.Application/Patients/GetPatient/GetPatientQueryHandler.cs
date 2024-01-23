@@ -23,7 +23,7 @@ public sealed class GetPatientQueryHandler : IQueryHandler<GetPatientQuery, Pati
 				p.Name AS Name,
 				p.IsTermSigned AS IsTermSigned,
 				p.PhoneNumber AS PhoneNumber,
-				p.MedicalState AS MedicalState,
+				p.MedicalState AS MedicalStateCode,
 				p.PeriodicityInDays AS PeriodicityInDays,
 				r.Name as Reference
 			FROM [dbo].[Patients] AS p
