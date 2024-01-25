@@ -20,4 +20,6 @@ internal abstract class Repository<TEntity, TEntityId>
 	public void Add(TEntity entity) => DbContext.Add(entity);
 
 	public void Delete(TEntity entity) => DbContext.Remove(entity);
+
+	public void Update(TEntity entity) => DbContext.Update(entity);
 }

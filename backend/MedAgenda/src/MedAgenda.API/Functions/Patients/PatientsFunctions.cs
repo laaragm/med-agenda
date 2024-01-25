@@ -5,11 +5,11 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using MedAgenda.Application.Patients.GetPatient;
 using MedAgenda.Application.Patients.GetPatients;
 using MedAgenda.Application.Patients.CreatePatient;
 using MedAgenda.Application.Patients.DeletePatient;
-using Microsoft.AspNetCore.Routing;
-using MedAgenda.Application.Patients.GetPatient;
+using MedAgenda.Application.Patients.UpdatePatient;
 
 namespace MedAgenda.API.Functions.Patients;
 
@@ -36,6 +36,7 @@ public class Patients : FunctionBase
 		try
 		{
 			_logger.LogInformation("Triggered CreatePatient function.");
+
 			var patient = await JsonSerializer.DeserializeAsync<CreatePatientRequest>(req.Body, _jsonOptions);
 			if (patient is null)
 			{
@@ -139,6 +140,48 @@ public class Patients : FunctionBase
 		catch (Exception exception)
 		{
 			_logger.LogError(exception, $"Error retrieving patient with id = {id}");
+			return await HandleException(req, exception);
+		}
+	}
+
+	[Function(nameof(UpdatePatient))]
+	public async Task<HttpResponseData> UpdatePatient([HttpTrigger(AuthorizationLevel.Function, "PATCH", Route = Route + "/{id}")]
+		HttpRequestData req,
+		FunctionContext context,
+		Guid id,
+		CancellationToken cancellationToken)
+	{
+		try
+		{
+			_logger.LogInformation("Triggered UpdatePatient function.");
+
+			var patient = await JsonSerializer.DeserializeAsync<UpdatePatientRequest>(req.Body, _jsonOptions);
+			if (patient is null)
+			{
+				_logger.LogError("Error deserializing patient");
+				return await StringResponse(req, "Error deserializing patient", HttpStatusCode.BadRequest);
+			}
+
+			var updatedBy = Guid.NewGuid(); // TODO: Get info from token
+			var command = new UpdatePatientCommand(
+				id,
+				patient.Name,
+				patient.MedicalStateCode,
+				patient.IsTermSigned,
+				updatedBy,
+				patient.ReferencePatientId,
+				patient.PeriodicityInDays,
+				patient.PhoneNumber);
+			var result = await _sender.Send(command, cancellationToken);
+
+			if (result.IsFailure)
+				return await ErrorResponse(req, result.Error, HttpStatusCode.BadRequest);
+
+			return await SuccessResponse(req, result.Value, HttpStatusCode.Created);
+		}
+		catch (Exception exception)
+		{
+			_logger.LogError(exception, $"Error updating patient with id = {id}");
 			return await HandleException(req, exception);
 		}
 	}

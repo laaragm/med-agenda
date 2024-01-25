@@ -1,5 +1,4 @@
 ﻿using MedAgenda.Domain.Abstractions;
-using MedAgenda.Domain.Observations;
 
 namespace MedAgenda.Domain.Patients;
 
@@ -15,28 +14,6 @@ public sealed class Patient : Entity<PatientId>
 	public Guid CreatedBy { get; private set; }
 	public DateTime? UpdatedOn { get; private set; }
 	public Guid? UpdatedBy { get; private set; }
-	
-	private Patient(
-		PatientId id,
-		Name name, 
-		PhoneNumber? phoneNumber, 
-		MedicalState medicalState, 
-		PatientId? referencePatientId, 
-		IsTermSigned isTermSigned,
-		PeriodicityInDays? periodicityInDays,
-		DateTime createdOn, 
-		Guid createdBy)
-		: base(id)
-	{
-		Name = name;
-		PhoneNumber = phoneNumber;
-		MedicalState = medicalState;
-		ReferencePatientId = referencePatientId;
-		IsTermSigned = isTermSigned;
-		PeriodicityInDays = periodicityInDays;
-		CreatedOn = createdOn;
-		CreatedBy = createdBy;
-	}
 
 	private Patient() { }
 
@@ -50,19 +27,39 @@ public sealed class Patient : Entity<PatientId>
 		PeriodicityInDays? periodicityInDays,
 		PhoneNumber? phoneNumber)
 	{
-		var patient = new Patient(
-			PatientId.New(),
-			name,
-			phoneNumber,
-			medicalState,
-			referencePatientId,
-			isTermSigned,
-			periodicityInDays,
-			utcNow,
-			createdBy);
-		patient.UpdatedOn = utcNow;
-		patient.UpdatedBy = createdBy;
+		var patient = new Patient
+		{
+			Id = PatientId.New(),
+			Name = name,
+			PhoneNumber = phoneNumber,
+			MedicalState = medicalState,
+			ReferencePatientId = referencePatientId,
+			IsTermSigned = isTermSigned,
+			PeriodicityInDays = periodicityInDays,
+			CreatedOn = utcNow,
+			CreatedBy = createdBy,
+		};
 
 		return patient;
+	}
+
+	public void Update(
+		Name name,
+		MedicalState medicalState,
+		IsTermSigned isTermSigned,
+		DateTime utcNow,
+		Guid updatedBy,
+		PatientId? referencePatientId,
+		PeriodicityInDays? periodicityInDays,
+		PhoneNumber? phoneNumber)
+	{
+		Name = name;
+		MedicalState = medicalState;
+		IsTermSigned = isTermSigned;
+		UpdatedOn = utcNow;
+		UpdatedBy = updatedBy;
+		ReferencePatientId = referencePatientId;
+		PeriodicityInDays = periodicityInDays;
+		PhoneNumber = phoneNumber;
 	}
 }

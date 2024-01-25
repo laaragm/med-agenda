@@ -1,12 +1,16 @@
 ﻿using FluentValidation;
 using MedAgenda.Domain.Patients;
 
-namespace MedAgenda.Application.Patients.CreatePatient;
+namespace MedAgenda.Application.Patients.UpdatePatient;
 
-public class CreatePatientCommandValidator : AbstractValidator<CreatePatientCommand>
+public class UpdatePatientCommandValidator : AbstractValidator<UpdatePatientCommand>
 {
-	public CreatePatientCommandValidator()
+	public UpdatePatientCommandValidator()
 	{
+		RuleFor(x => x.Id)
+			.NotNull()
+			.WithMessage("The id must be provided.");
+
 		RuleFor(x => x.Name)
 			.NotEmpty()
 			.WithMessage("The name can't be empty.");
