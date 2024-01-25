@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using MedAgenda.Application.Abstractions.Behaviors;
+using MedAgenda.Application.Patients.UpdatePatient;
 
 namespace MedAgenda.Application;
 
@@ -17,6 +18,8 @@ public static class DependencyInjection
 
 		// Scan the assembly and register any validators as an IValidator instance
 		services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
+
+		services.AddScoped<IPatientUpdateResponseAdapter, PatientUpdateResponseAdapter>();
 
 		return services;
 	}

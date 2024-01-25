@@ -2,4 +2,4 @@
 
 namespace MedAgenda.Application.Patients.GetPatient;
 
-public sealed record GetPatientQuery(Guid Id) : IQuery<PatientResponse>;
+public sealed record GetPatientQuery(Guid Id) : IQuery<GetPatientResponse>;

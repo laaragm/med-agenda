@@ -5,7 +5,7 @@ using MedAgenda.Application.Abstractions.Messaging;
 
 namespace MedAgenda.Application.Patients.GetPatients;
 
-public sealed class GetPatientsQueryHandler : IQueryHandler<GetPatientsQuery, IReadOnlyList<SummarizedPatientResponse>>
+public sealed class GetPatientsQueryHandler : IQueryHandler<GetPatientsQuery, IReadOnlyList<GetPatientsResponse>>
 {
 	private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
@@ -14,7 +14,7 @@ public sealed class GetPatientsQueryHandler : IQueryHandler<GetPatientsQuery, IR
 		_sqlConnectionFactory = sqlConnectionFactory;
 	}
 
-	public async Task<Result<IReadOnlyList<SummarizedPatientResponse>>> Handle(GetPatientsQuery request, CancellationToken cancellationToken)
+	public async Task<Result<IReadOnlyList<GetPatientsResponse>>> Handle(GetPatientsQuery request, CancellationToken cancellationToken)
 	{
 		using var connection = _sqlConnectionFactory.CreateConnection();
 		const string sql = """
@@ -27,7 +27,7 @@ public sealed class GetPatientsQueryHandler : IQueryHandler<GetPatientsQuery, IR
 			LEFT JOIN [dbo].[Patients] AS r ON p.ReferencePatientId = r.Id
 			ORDER BY p.Name
 			""";
-		var patients = await connection.QueryAsync<SummarizedPatientResponse>(sql);
+		var patients = await connection.QueryAsync<GetPatientsResponse>(sql);
 
 		return patients.ToList();
 	}

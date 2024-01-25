@@ -1,5 +1,4 @@
-﻿using MedAgenda.Domain.Patients;
-using MedAgenda.Application.Abstractions.Messaging;
+﻿using MedAgenda.Application.Abstractions.Messaging;
 
 namespace MedAgenda.Application.Patients.UpdatePatient;
 
@@ -12,4 +11,4 @@ public sealed record UpdatePatientCommand(
 	Guid? ReferencePatientId,
 	int? PeriodicityInDays,
 	string? PhoneNumber)
-	: ICommand<Patient>;
+	: ICommand<UpdatePatientResponse>;
