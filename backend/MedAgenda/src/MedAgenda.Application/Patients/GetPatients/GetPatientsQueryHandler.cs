@@ -17,8 +17,10 @@ public sealed class GetPatientsQueryHandler : IQueryHandler<GetPatientsQuery, IR
 	public async Task<Result<IReadOnlyList<GetPatientsResponse>>> Handle(GetPatientsQuery request, CancellationToken cancellationToken)
 	{
 		using var connection = _sqlConnectionFactory.CreateConnection();
-		var condition = request.Name is not null ? "WHERE p.Name LIKE '@Name%'" : "";
-		condition += request.IncludeReferences == true ? " OR r.Name LIKE '@Name%'" : "";
+
+		var name = request.Name + "%";
+		var condition = request.Name is not null ? "WHERE p.Name LIKE @name" : "";
+		condition += request.IncludeReferences == true ? " OR p.Id IN (SELECT ReferencePatientId FROM [dbo].[Patients] WHERE Name LIKE @name)" : "";
 		var sql = $"""
 			SELECT
 				p.Id AS Id,
@@ -30,7 +32,8 @@ public sealed class GetPatientsQueryHandler : IQueryHandler<GetPatientsQuery, IR
 			{condition}
 			ORDER BY p.Name
 			""";
-		var patients = await connection.QueryAsync<GetPatientsResponse>(sql, new { request.Name });
+		
+		var patients = await connection.QueryAsync<GetPatientsResponse>(sql, new { name });
 
 		return patients.ToList();
 	}
