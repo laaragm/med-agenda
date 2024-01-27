@@ -10,6 +10,8 @@ using MedAgenda.Application.Patients.GetPatients;
 using MedAgenda.Application.Patients.CreatePatient;
 using MedAgenda.Application.Patients.DeletePatient;
 using MedAgenda.Application.Patients.UpdatePatient;
+using MedAgenda.Domain.Patients;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 
 namespace MedAgenda.API.Functions.Patients;
 
@@ -77,7 +79,10 @@ public class Patients : FunctionBase
 		{
 			_logger.LogInformation("Triggered GetPatients function.");
 
-			var query = new GetPatientsQuery();
+			var name = req.Query.Get("name");
+			var includeReferences = req.Query.Get("includeReferences") == "true";
+
+			var query = new GetPatientsQuery(name, includeReferences);
 			var result = await _sender.Send(query, cancellationToken);
 
 			if (result.IsFailure)
