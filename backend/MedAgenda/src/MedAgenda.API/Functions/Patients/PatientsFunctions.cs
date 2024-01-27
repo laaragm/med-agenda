@@ -10,21 +10,19 @@ using MedAgenda.Application.Patients.GetPatients;
 using MedAgenda.Application.Patients.CreatePatient;
 using MedAgenda.Application.Patients.DeletePatient;
 using MedAgenda.Application.Patients.UpdatePatient;
-using MedAgenda.Domain.Patients;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 
 namespace MedAgenda.API.Functions.Patients;
 
-public class Patients : FunctionBase
+public class PatientsFunctions : FunctionBase
 {
 	private const string Route = "patients";
 	private readonly ILogger _logger;
 	private readonly ISender _sender;
 	private readonly JsonSerializerOptions _jsonOptions;
 
-	public Patients(ILoggerFactory loggerFactory, ISender sender, IOptions<JsonSerializerOptions> jsonSerializerOptions) : base(jsonSerializerOptions)
+	public PatientsFunctions(ILoggerFactory loggerFactory, ISender sender, IOptions<JsonSerializerOptions> jsonSerializerOptions) : base(jsonSerializerOptions)
 	{
-		_logger = loggerFactory.CreateLogger<Patients>();
+		_logger = loggerFactory.CreateLogger<PatientsFunctions>();
 		_sender = sender;
 		_jsonOptions = jsonSerializerOptions.Value;
 	}
