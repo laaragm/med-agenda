@@ -20,7 +20,7 @@ public sealed class GetPatientsQueryHandler : IQueryHandler<GetPatientsQuery, IR
 
 		var name = request.Name + "%";
 		var condition = request.Name is not null ? "WHERE p.Name LIKE @name" : "";
-		condition += request.IncludeReferences == true ? " OR p.Id IN (SELECT ReferencePatientId FROM [dbo].[Patients] WHERE Name LIKE @name)" : "";
+		condition += request.IncludeReferences == true ? " OR r.Name LIKE @name" : "";
 		var sql = $"""
 			SELECT
 				p.Id AS Id,
