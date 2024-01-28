@@ -5,10 +5,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using MedAgenda.Application.Observations.CreateObservation;
-using MedAgenda.Application.Patients.GetPatients;
-using MedAgenda.Domain.Patients;
 using MedAgenda.Application.Observations.GetObservations;
+using MedAgenda.Application.Observations.CreateObservation;
+using MedAgenda.Application.Observations.DeleteObservation;
 
 namespace MedAgenda.API.Functions.Observations;
 
@@ -88,6 +87,32 @@ internal class ObservationsFunctions : FunctionBase
 		catch (Exception exception)
 		{
 			_logger.LogError(exception, "Error retrieving observations");
+			return await HandleException(req, exception);
+		}
+	}
+
+	[Function(nameof(DeleteObservation))]
+	public async Task<HttpResponseData> DeleteObservation([HttpTrigger(AuthorizationLevel.Function, "DELETE", Route = Route + "/{id}")]
+		HttpRequestData req,
+		FunctionContext context,
+		Guid id,
+		CancellationToken cancellationToken)
+	{
+		try
+		{
+			_logger.LogInformation("Triggered DeleteObservation function.");
+
+			var query = new DeleteObservationCommand(id);
+			var result = await _sender.Send(query, cancellationToken);
+
+			if (result.IsFailure)
+				return await ErrorResponse(req, result.Error, HttpStatusCode.BadRequest);
+
+			return await SuccessResponse(req, result.IsSuccess, HttpStatusCode.OK);
+		}
+		catch (Exception exception)
+		{
+			_logger.LogError(exception, $"Error deleting observation with id = {id}");
 			return await HandleException(req, exception);
 		}
 	}
