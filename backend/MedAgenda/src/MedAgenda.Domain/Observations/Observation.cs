@@ -3,7 +3,7 @@ using MedAgenda.Domain.Abstractions;
 
 namespace MedAgenda.Domain.Observations;
 
-public sealed class Observation: Entity<ObservationId>
+public sealed class Observation : Entity<ObservationId>
 {
 	public PatientId PatientId { get; private set; }
 	public Message Message { get; private set; }
@@ -24,5 +24,12 @@ public sealed class Observation: Entity<ObservationId>
 			CreatedOn = utcNow,
 			CreatedBy = createdBy,
 		};
+	}
+
+	public void Update(Message message, DateTime utcNow, Guid updatedBy)
+	{
+		Message = message;
+		UpdatedOn = utcNow;
+		UpdatedBy = updatedBy;
 	}
 }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using MedAgenda.Application.Abstractions.Behaviors;
 using MedAgenda.Application.Patients.UpdatePatient;
+using MedAgenda.Application.Observations.UpdateObservation;
 
 namespace MedAgenda.Application;
 
@@ -20,6 +21,7 @@ public static class DependencyInjection
 		services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
 
 		services.AddScoped<IPatientUpdateResponseAdapter, PatientUpdateResponseAdapter>();
+		services.AddScoped<IObservationUpdateResponseAdapter, ObservationUpdateResponseAdapter>();
 
 		return services;
 	}

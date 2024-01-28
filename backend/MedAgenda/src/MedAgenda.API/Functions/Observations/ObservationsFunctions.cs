@@ -8,6 +8,7 @@ using Microsoft.Azure.Functions.Worker.Http;
 using MedAgenda.Application.Observations.GetObservations;
 using MedAgenda.Application.Observations.CreateObservation;
 using MedAgenda.Application.Observations.DeleteObservation;
+using MedAgenda.Application.Observations.UpdateObservation;
 
 namespace MedAgenda.API.Functions.Observations;
 
@@ -113,6 +114,41 @@ internal class ObservationsFunctions : FunctionBase
 		catch (Exception exception)
 		{
 			_logger.LogError(exception, $"Error deleting observation with id = {id}");
+			return await HandleException(req, exception);
+		}
+	}
+
+	[Function(nameof(UpdateObservation))]
+	public async Task<HttpResponseData> UpdateObservation([HttpTrigger(AuthorizationLevel.Function, "PATCH", Route = Route + "/{id}")]
+		HttpRequestData req,
+		FunctionContext context,
+		Guid id,
+		CancellationToken cancellationToken)
+	{
+		try
+		{
+			_logger.LogInformation("Triggered UpdateObservation function.");
+
+			var observation = await JsonSerializer.DeserializeAsync<UpdateObservationRequest>(req.Body, _jsonOptions);
+			if (observation is null)
+			{
+				var message = "Error deserializing observation";
+				_logger.LogError(message);
+				return await StringResponse(req, message, HttpStatusCode.BadRequest);
+			}
+
+			var updatedBy = Guid.NewGuid(); // TODO: Get info from token
+			var command = new UpdateObservationCommand(id, observation.Message, updatedBy);
+			var result = await _sender.Send(command, cancellationToken);
+
+			if (result.IsFailure)
+				return await ErrorResponse(req, result.Error, HttpStatusCode.BadRequest);
+
+			return await SuccessResponse(req, result.Value, HttpStatusCode.Created);
+		}
+		catch (Exception exception)
+		{
+			_logger.LogError(exception, $"Error updating observation with id = {id}");
 			return await HandleException(req, exception);
 		}
 	}
