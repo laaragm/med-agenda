@@ -6,6 +6,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using MedAgenda.Application.Observations.CreateObservation;
+using MedAgenda.Application.Patients.GetPatients;
+using MedAgenda.Domain.Patients;
+using MedAgenda.Application.Observations.GetObservations;
 
 namespace MedAgenda.API.Functions.Observations;
 
@@ -52,6 +55,39 @@ internal class ObservationsFunctions : FunctionBase
 		catch (Exception exception)
 		{
 			_logger.LogError(exception, "Error creating observation");
+			return await HandleException(req, exception);
+		}
+	}
+
+	[Function(nameof(GetObservations))]
+	public async Task<HttpResponseData> GetObservations([HttpTrigger(AuthorizationLevel.Function, "GET", Route = Route)]
+		HttpRequestData req,
+		FunctionContext context,
+		CancellationToken cancellationToken)
+	{
+		try
+		{
+			_logger.LogInformation("Triggered GetObservations function.");
+
+			var patientId = req.Query.Get("patientId");
+			if (patientId is null)
+			{
+				var message = "Patient id must be provided when retrieving observations";
+				_logger.LogError(message);
+				return await StringResponse(req, message, HttpStatusCode.BadRequest);
+			}
+
+			var query = new GetObservationsQuery(new Guid(patientId));
+			var result = await _sender.Send(query, cancellationToken);
+
+			if (result.IsFailure)
+				return await ErrorResponse(req, result.Error, HttpStatusCode.BadRequest);
+
+			return await SuccessResponse(req, result.Value, HttpStatusCode.OK);
+		}
+		catch (Exception exception)
+		{
+			_logger.LogError(exception, "Error retrieving observations");
 			return await HandleException(req, exception);
 		}
 	}
