@@ -9,7 +9,7 @@ const config: Config = {
 				secondary: "#00AB55",
 				tertiary: "#A9A9B2",
 				warning: "#D4BF08",
-				error: "#B72136",
+				danger: "#B72136",
 				textColor: "#212B36",
 				backgroundColor: "#D5D3E0",
 			},
