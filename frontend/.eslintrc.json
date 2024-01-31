@@ -1,0 +1,45 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "env": {
+    "browser": true,
+    "jest": true,
+    "es2021": true
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "import" 
+  ],
+  "settings": {
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {
+      }
+    }
+  },
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "import/prefer-default-export": "off",
+    "prefer-const": "error",
+    "no-use-before-define": "off",
+    "quotes": ["error", "single"],
+    "linebreak-style": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "max-len": ["error", 180],
+    "max-lines": ["error", 320],
+    "indent": ["error", 2, { "SwitchCase": 1, "MemberExpression": 1, "ObjectExpression": 1  }],
+    "react/jsx-indent": ["error", 2],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "warn",
+    "array-callback-return": "error",
+    "no-useless-escape": "off",
+    "radix": ["error", "as-needed"],
+    "jsx-a11y/no-noninteractive-element-interactions": "warn",
+    "react-hooks/exhaustive-deps": "off",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "semi": "warn"
+  }
+}
