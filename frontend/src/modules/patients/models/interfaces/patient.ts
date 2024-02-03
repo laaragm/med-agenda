@@ -3,9 +3,9 @@ export interface IPatient {
 	name: string;
 	medicalStateCode: number;
 	isTermSigned: boolean;
-	periodicityInDays: number;
-	phoneNumber: string;
 	reference: string;
+	periodicityInDays?: number;
+	phoneNumber?: string;
 }
 
 export interface ISummarizedPatient {
