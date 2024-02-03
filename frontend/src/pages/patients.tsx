@@ -1,6 +1,10 @@
-import { Button } from "@/common/components";
+import { useState } from "react";
+import { Button, Checkbox, TextInput } from "@/common/components";
 
 export default function CreateProject() {
+	const [value, setValue] = useState('');
+	const [selected, setSelected] = useState(false);
+
 	return (
 		<>
 			<div className="m-5 gap-2 flex">
@@ -30,6 +34,31 @@ export default function CreateProject() {
 				<Button variant="outlined-danger" onClick={() => console.log('clicked!')}>
 					Test 8
 				</Button>
+			</div>
+			<div className="m-5 gap-2 flex">
+				<TextInput value={value} placeholder="Type here" onChange={(e) => setValue(e.target.value)} />
+			</div>
+			<div className="m-5 gap-5 flex">
+				<Checkbox
+					id="my-checkbox"
+					checked={selected}
+					label="This is a test"
+					scale="small"
+					onChange={({ target }) => setSelected(target.checked)}
+				/>
+				<Checkbox
+					id="my-checkbox"
+					checked={selected}
+					label="This is a test 2"
+					onChange={({ target }) => setSelected(target.checked)}
+				/>
+				<Checkbox
+					id="my-checkbox"
+					checked={selected}
+					label="This is a test 3"
+					scale="large"
+					onChange={({ target }) => setSelected(target.checked)}
+				/>
 			</div>
 		</>
 	);

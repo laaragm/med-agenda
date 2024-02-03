@@ -8,10 +8,12 @@ import { router } from "./routes";
 
 export default function App() {
   	return (
-		<HelmetProvider>
-			<QueryClientProvider client={queryClient}>
-				<RouterProvider router={router} fallbackElement={<Spinner className="w-12 h-12" />} />
-			</QueryClientProvider>
-		</HelmetProvider>
+		<div className="bg-backgroundColor">
+			<HelmetProvider>
+				<QueryClientProvider client={queryClient}>
+					<RouterProvider router={router} fallbackElement={<Spinner className="w-12 h-12" />} />
+				</QueryClientProvider>
+			</HelmetProvider>
+		</div>
   	)
 }

@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
-	content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+	content: ['./src/**/*.{js,ts,jsx,tsx,mdx}', "./*.html"],
 	theme: {
 		extend: {
 			colors: {
@@ -10,8 +10,9 @@ const config: Config = {
 				tertiary: "#A9A9B2",
 				warning: "#D4BF08",
 				danger: "#B72136",
-				textColor: "#212B36",
-				backgroundColor: "#D5D3E0",
+				textPrimary: "#212B36",
+				backgroundColor: "#F5F5F7", // #F1F0F5, #F8F8FF, #F5F5F7, #FAFAF8, #E8F0FA
+				borderColor: "#212B36",
 			},
 		},
 	},
