@@ -1,69 +1,64 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { useMsal } from "@azure/msal-react";
+'use client';
 
-import { acquireToken, adxLoginRequest } from "@/authentication";
-import { IUser } from "../models";
-import { useAdxApiConfig, useAdxOpenAiApiConfig } from "../hooks";
+import { createContext, ReactNode, useMemo } from 'react';
+import { useAccount, useMsal } from '@azure/msal-react';
+
+import { IUser } from '@/common/models';
+import { isStringNullOrEmpty } from '@/common/utils';
 
 type AuthContextData = {
-    isAuthenticated: boolean;
-    user: IUser | null;
+	isAuthenticated: boolean;
+  	user: IUser | null;
 };
 
 export const AuthContext = createContext({} as AuthContextData);
 
 type AuthContextProviderProps = {
-    children: ReactNode;
+	children: ReactNode;
 };
 
 type Token = {
-    oid: string;
-    email: string;
-    name: string;
-    given_name: string;
-    family_name: string;
-    roles: string[];
+	oid: string;
+	name: string;
+	preferred_username: string;
+	given_name: string;
+	family_name: string;
+	roles: string[];
 };
 
+const formatName = (idTokenClaims: Token): { name: string; surname: string } => {
+	let { given_name: givenName, family_name: familyName } = idTokenClaims;
+
+	if (isStringNullOrEmpty(givenName) || isStringNullOrEmpty(familyName)) {
+		const [firstName, lastName] = idTokenClaims.name.split(' ');
+		givenName = givenName || firstName || '';
+		familyName = familyName || lastName || '';
+	}
+
+  return { name: givenName, surname: familyName };
+};
+
+const getUserInfo = (idTokenClaims: Token, name: string, surname: string): IUser => ({
+	id: idTokenClaims.oid,
+	email: idTokenClaims.preferred_username,
+	fullName: idTokenClaims.name,
+	givenName: name,
+	familyName: surname,
+	roles: idTokenClaims.roles,
+});
+
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
-    const { accounts } = useMsal();
-    const { onDefineAuthorizationHeader: defineAdxOpenAiAuthorizationHeader } = useAdxOpenAiApiConfig();
-    const { onDefineAuthorizationHeader: defineAdxAuthorizationHeader } = useAdxApiConfig();
-    const [user, setUser] = useState<IUser | null>(null);
-    const isAuthenticated = !!user;
+	const { accounts } = useMsal();
+	const currentAccount = useAccount(accounts[0] || {});
+	const idTokenClaims = currentAccount?.idTokenClaims as Token | undefined;
 
-    useEffect(() => {
-        saveInfoAfterSignIn();
-        setupApiHeaders();
-    }, [accounts]);
+	const user = useMemo(() => {
+		if (!idTokenClaims) return null;
+		const { name, surname } = formatName(idTokenClaims);
+		return getUserInfo(idTokenClaims, name, surname);
+	}, [idTokenClaims]);
 
-    const saveInfoAfterSignIn = async () => {
-        if (accounts.length > 0) {
-            const authResult = await acquireToken(adxLoginRequest.scopes);
-            if (authResult && authResult.idTokenClaims) {
-                defineUserInfo(authResult.idTokenClaims as Token);
-            }
-        }
-    };
+	const isAuthenticated = !!user;
 
-    const setupApiHeaders = async () => {
-        await defineAdxAuthorizationHeader();
-        await defineAdxOpenAiAuthorizationHeader();
-    };
-
-    const defineUserInfo = (idTokenClaims: Token) => {
-        if (!!idTokenClaims) {
-            setUser((prevState) => ({
-                ...prevState,
-                id: idTokenClaims.oid,
-                email: idTokenClaims.email,
-                fullName: idTokenClaims.name,
-                givenName: idTokenClaims.given_name,
-                familyName: idTokenClaims.family_name,
-                roles: idTokenClaims?.roles,
-            }));
-        }
-    };
-
-    return <AuthContext.Provider value={{ isAuthenticated, user }}>{children}</AuthContext.Provider>;
+	return <AuthContext.Provider value={{ isAuthenticated, user }}>{children}</AuthContext.Provider>;
 }

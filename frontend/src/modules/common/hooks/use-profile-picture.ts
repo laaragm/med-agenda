@@ -12,14 +12,12 @@ export function useProfilePicture(userId?: string) {
     const { user } = useAuth();
     const { accounts } = useMsal();
     const currentAccount = useAccount(accounts[0] || {});
-    const { data, isLoading, isFetching, error, refetch } = useQuery(
-        [QueryKeys.ProfilePicture, userId],
-        async () => await GetAvatarImage(currentAccount, userId),
-        {
-            staleTime: 1000 * 60 * 5, // 5 minutes
-            enabled: !!user && !isStringNullOrEmpty(userId) && !!currentAccount,
-        }
-    ) as UseQueryResult<string, unknown>;
+    const { data, isLoading, isFetching, error, refetch } = useQuery({
+		queryKey: [QueryKeys.ProfilePicture, userId],
+		queryFn: () => GetAvatarImage(currentAccount, userId),
+		staleTime: 1000 * 60 * 5, // 5 minutes
+		enabled: !!user && !isStringNullOrEmpty(userId) && !!currentAccount,
+	}) as UseQueryResult<string, unknown>;
 
     return { data, isLoading, isFetching, error, refetch };
 }
