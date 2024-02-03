@@ -44,7 +44,7 @@ export function Checkbox({
         onChange={onChange}
         {...rest}
       />
-      <label htmlFor={id} className={twMerge(`${labelSizeClasses[scale]} font-medium`, labelClassName)}>{label}</label>
+      <label htmlFor={id} className={twMerge(`${labelSizeClasses[scale]}`, labelClassName)}>{label}</label>
     </div>
   );
 }

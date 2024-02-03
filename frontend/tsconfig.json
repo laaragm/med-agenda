@@ -23,6 +23,7 @@
       "paths": {
           "@/*": ["./src/*"],
 		  "@/common/*": ["./src/modules/common/*"],
+		  "@/patients/*": ["./src/modules/patients/*"],
       }
   },
   "include": ["src"],

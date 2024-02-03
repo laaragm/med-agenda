@@ -8,7 +8,7 @@ interface PageProps {
 
 export function Page({ centeredContent = false, className, children }: PageProps) {
   return (
-    <div className={twMerge(`flex flex-col ${centeredContent ? 'justify-center' : ''} relative overflow-hidden min-h-[calc(100vh-55px)]`, className)}>
+    <div className={twMerge(`flex flex-col ${centeredContent ? 'justify-center' : ''} relative overflow-hidden min-h-[calc(100vh-100px)]`, className)}>
       {children}
     </div>
   );
