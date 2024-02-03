@@ -1,9 +1,11 @@
 import { Button, Page } from "@/common/components";
 import { usePatientSearch } from "@/patients/hooks";
 import { PatientList, PatientSearch } from "@/patients/components";
+import { useStore } from "@/store";
 
 export function PatientsView() {
 	const { includeReferences, onChangeIncludeReferences, onSearch  } = usePatientSearch();
+	const { patients, isLoading } = useStore();
 
 	return (
 		<Page className="px-5 mt-10 gap-6">
@@ -21,7 +23,7 @@ export function PatientsView() {
 			</div>
 
 			<div className="flex flex-row w-full">
-				<PatientList />
+				<PatientList patients={patients} />
 			</div>
 		</Page>
 	);

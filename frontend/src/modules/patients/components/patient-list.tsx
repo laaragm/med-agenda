@@ -1,8 +1,15 @@
-import { PatientRow } from ".";
+import { PatientRow } from "@/patients/components";
+import { ISummarizedPatient } from "@/patients/models";
 
-export function PatientList() {
+type PatientListProps = {
+	patients: ISummarizedPatient[];
+}
+
+export function PatientList({ patients }: PatientListProps) {
 	return (
 		<div className="flex flex-col w-full">
+			{/* {patients.map((patient) => <PatientRow key={patient.id} patient={patient} />)} */}
+
 			<PatientRow patient={{ id: "1", name: "Ana da Silva", reference: "Maria Clara Silva", isTermSigned: true }} />
 			<PatientRow patient={{ id: "2", name: "João Mendes", reference: "Maria Clara Silva", isTermSigned: true }} />
 			<PatientRow patient={{ id: "3", name: "Katia Pereira Lima", reference: "Fernanda Lima", isTermSigned: false }} />

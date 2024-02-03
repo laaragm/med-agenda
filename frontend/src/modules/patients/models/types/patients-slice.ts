@@ -1,4 +1,4 @@
-import { ISummarizedPatient } from "..";
+import { ISummarizedPatient } from "@/patients/models";
 
 export type PatientsSlice = {
 	patients: ISummarizedPatient[];
