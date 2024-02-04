@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useStore } from "@/store";
 import { Button, Page, Spinner } from "@/common/components";
 import { usePatientDetails, usePatientSearch } from "@/patients/hooks";
-import { CreatePatientDialog, PatientList, PatientSearch } from "@/patients/components";
+import { CreatePatientDialog, PatientList, PatientListSkeletonLoading, PatientSearch } from "@/patients/components";
 import Illustration from "@/assets/main-illustration.svg";
 
 export function PatientsView() {
@@ -26,7 +26,7 @@ export function PatientsView() {
 			<div className="flex flex-row w-full h-full gap-6">
 				<div className="w-full md:w-[70%]">
 					{isLoading ? (
-						<Spinner className="w-12 h-12" />
+						<PatientListSkeletonLoading />
 					) : (
 						<PatientList patients={patients} selectedPatient={currentPatient} isLoadingCurrentPatient={isLoadingCurrentPatient} onRequestDetails={onRequestDetails} />
 					)}
