@@ -11,9 +11,7 @@ export function PatientRow({ patient }: PatientRowProps) {
 		<Accordion type="single" collapsible>
 			<AccordionItem value={patient.id}>
 				<AccordionTrigger>
-					<>
-						{patient.name} {isStringNullOrEmpty(patient.reference) ? "" : `(${patient.reference})`}
-					</>
+					{patient.name} {isStringNullOrEmpty(patient.reference) ? "" : `(${patient.reference})`}
 				</AccordionTrigger>
 				<AccordionContent>
 					Fetching patient...

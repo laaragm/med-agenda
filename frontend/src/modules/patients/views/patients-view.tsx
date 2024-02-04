@@ -1,10 +1,11 @@
+import { useStore } from "@/store";
 import { Button, Page } from "@/common/components";
 import { usePatientSearch } from "@/patients/hooks";
 import { PatientList, PatientSearch } from "@/patients/components";
-import { useStore } from "@/store";
+import Illustration from "@/assets/main-illustration.svg";
 
 export function PatientsView() {
-	const { includeReferences, onChangeIncludeReferences, onSearch, onClear  } = usePatientSearch();
+	const { filters, onChangeIncludeReferences, onSearch, onClear  } = usePatientSearch();
 	const { patients, isLoading } = useStore();
 
 	return (
@@ -12,7 +13,7 @@ export function PatientsView() {
 			<div className="flex flex-row w-full items-start justify-between gap-5">
 				<div className="w-[70%]">
 					<PatientSearch
-						includeReferences={includeReferences}
+						includeReferences={filters.includeReferences}
 						onChangeIncludeReferences={onChangeIncludeReferences}
 						onSearch={onSearch}
 						onClear={onClear}
@@ -23,8 +24,11 @@ export function PatientsView() {
 				</div>
 			</div>
 
-			<div className="flex flex-row w-full">
-				<PatientList patients={patients} />
+			<div className="flex flex-row w-full h-full gap-6">
+				<div className="w-full md:w-[70%]">
+					<PatientList patients={patients} />
+				</div>
+				<img src={Illustration} width={366} height={318} alt="Illustration" className="invisible md:visible ml-auto" />
 			</div>
 		</Page>
 	);

@@ -1,29 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { useStore } from "@/store";
+import { usePatients } from "@/patients/hooks";
 import { showErrorMessage } from "@/common/utils";
-import { GetPatients } from "@/patients/services";
 
 export function usePatientSearch() {
-	const [includeReferences, setIncludeReferences] = useState(false);
+	const [filters, setFilters] = useState({ name: "", includeReferences: false });
+	const { data, isLoading, error } = usePatients(filters.name, filters.includeReferences);
+	const { setPatients, setIsLoading } = useStore();
+
+	useEffect(() => {
+        console.log("data: ", data);
+        setIsLoading(isLoading);
+        if (error) {
+			showErrorMessage("Ocorreu um erro ao buscar os pacientes");
+            console.error(error);
+        }
+        if (data?.result) {
+            setPatients(data.result);
+        }
+    }, [data, isLoading, error]);
 
 	const onChangeIncludeReferences = (checked: boolean) => {
-		setIncludeReferences(checked);
+		setFilters(prevState => ({ ...prevState, includeReferences: checked }));
 	}
 
 	const onSearch = async (name: string) => {
-		console.log('Searching for:', name);
-		if (name.length === 0) {
+        if (name.length === 0) {
 			showErrorMessage("Digite um nome para pesquisar");
-			return;
-		}
-
-		const response = await GetPatients(name, includeReferences);
-		console.log('Response:', response);
-	}
+            return;
+        }
+		setFilters(prevState => ({ ...prevState, name }));
+    }
 
 	const onClear = () => {
-		console.log('Clearing search');
-	}
+        setFilters({ name: "", includeReferences: false });
+    }
 
-	return { includeReferences, onChangeIncludeReferences, onSearch, onClear };
+	return { filters, onChangeIncludeReferences, onSearch, onClear };
 }

@@ -33,8 +33,8 @@ export function SearchBar({ defaultValue, placeholder, onSearch, onClear }: Sear
 	return (
 		<div className="flex flex-row gap-2 items-center">
 			<TextInput ref={inputRef} defaultValue={defaultValue} placeholder={placeholder} onKeyDown={handleKeyDown} />
-			<MagnifyingGlass size={24} className="cursor-pointer" onClick={handleSearch} />
-			<Trash size={24} className="cursor-pointer" onClick={handleClearInput} />
+			<MagnifyingGlass size={28} className="cursor-pointer" onClick={handleSearch} />
+			<Trash size={28} className="cursor-pointer" onClick={handleClearInput} />
 		</div>
 	);
 }
