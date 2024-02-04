@@ -1,7 +1,7 @@
 import { isStringNullOrEmpty } from "@/common/utils";
-import { IPatient, ISummarizedPatient } from "@/patients/models";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/common/components";
 import { PatientDetails } from "@/patients/components";
+import { IPatient, ISummarizedPatient } from "@/patients/models";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Badge } from "@/common/components";
 
 type PatientRowProps = {
 	patient: ISummarizedPatient | IPatient;
@@ -15,7 +15,10 @@ export function PatientRow({ patient, patientDetails, isLoadingDetails, onExpand
 		<Accordion type="single" collapsible>
 			<AccordionItem value={patient.id}>
 				<AccordionTrigger onClick={onExpand}>
-					{patient.name} {isStringNullOrEmpty(patient.reference) ? "" : `(${patient.reference})`}
+					<span className="flex flex-row gap-2">
+						{patient.name} {isStringNullOrEmpty(patient.reference) ? "" : `(${patient.reference})`}
+						{!patient.isTermSigned && <Badge text="Não assinou termo" variant="danger" />}
+					</span>
 				</AccordionTrigger>
 				<AccordionContent>
 					{isLoadingDetails && (
