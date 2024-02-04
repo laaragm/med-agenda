@@ -12,5 +12,6 @@ export * from "./popover";
 export * from "./scroll-area";
 export * from "./scroll-to-top";
 export * from "./search-bar";
+export * from "./select";
 export * from "./spinner";
 export * from "./text-input";
