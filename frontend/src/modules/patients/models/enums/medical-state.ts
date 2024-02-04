@@ -1,7 +1,7 @@
 export enum MedicalState {
     Normal = 1,
-    Priority = 2,
-    Critical = 3
+    Prioridade = 2,
+    UTI = 3
 }
 
 export function getMedicalStateName(code: MedicalState) {

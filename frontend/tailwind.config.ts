@@ -11,8 +11,11 @@ const config: Config = {
 				warning: "#D4BF08",
 				danger: "#B72136",
 				textPrimary: "#212B36",
-				backgroundColor: "#F5F5F7", // #F1F0F5, #F8F8FF, #F5F5F7, #FAFAF8, #E8F0FA
+				backgroundColor: "#FAFAF8", // #F5F5F7, #FAFAF8
 				borderColor: "#212B36",
+			},
+			zIndex: {
+				"100": "100",
 			},
 			keyframes: {
 				"accordion-down": {

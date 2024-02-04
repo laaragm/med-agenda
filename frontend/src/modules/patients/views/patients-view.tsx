@@ -1,12 +1,16 @@
+import { useState } from "react";
+
 import { useStore } from "@/store";
-import { usePatientSearch } from "@/patients/hooks";
 import { Button, Page, Spinner } from "@/common/components";
-import { PatientList, PatientSearch } from "@/patients/components";
+import { usePatientDetails, usePatientSearch } from "@/patients/hooks";
+import { CreatePatientDialog, PatientList, PatientSearch } from "@/patients/components";
 import Illustration from "@/assets/main-illustration.svg";
 
 export function PatientsView() {
-	const { onSearch, onClear  } = usePatientSearch();
-	const { patients, isLoading } = useStore();
+	const { onSearch, onClear } = usePatientSearch();
+	const { onRequestDetails } = usePatientDetails();
+	const { patients, isLoading, currentPatient, isLoadingCurrentPatient } = useStore();
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 	return (
 		<Page className="px-5 mt-10 gap-6">
@@ -15,13 +19,17 @@ export function PatientsView() {
 					<PatientSearch onSearch={onSearch} onClear={onClear} />
 				</div>
 				<div className="ml-auto">
-					<Button className="md:px-12" onClick={() => console.log('clicked!')}>Adicionar</Button>
+					<Button className="md:px-12" onClick={() => setIsDialogOpen(true)}>Adicionar</Button>
 				</div>
 			</div>
 
 			<div className="flex flex-row w-full h-full gap-6">
 				<div className="w-full md:w-[70%]">
-					{isLoading ? <Spinner className="w-12 h-12" /> : <PatientList patients={patients} />}
+					{isLoading ? (
+						<Spinner className="w-12 h-12" />
+					) : (
+						<PatientList patients={patients} selectedPatient={currentPatient} isLoadingCurrentPatient={isLoadingCurrentPatient} onRequestDetails={onRequestDetails} />
+					)}
 				</div>
 				<img
 					src={Illustration}
@@ -29,6 +37,8 @@ export function PatientsView() {
 					className="invisible md:visible aspect-w-1 aspect-h-1 md:aspect-w-4 md:aspect-h-3 animate-bounce-in-right fixed bottom-0 right-0 max-w-full h-auto"
 				/>
 			</div>
+
+			<CreatePatientDialog isOpen={isDialogOpen} onOpenChange={setIsDialogOpen} />
 		</Page>
 	);
 }
