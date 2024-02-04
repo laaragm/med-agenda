@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -21,7 +22,7 @@ const labelSizeClasses: { [key in Size]: string } = {
 	large: 'text-lg',
 };
 
-export function Checkbox({
+export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
 	id,
 	className,
 	labelClassName,
@@ -32,19 +33,20 @@ export function Checkbox({
 	disabled = false,
 	onChange,
 	...rest
-}: CheckboxProps) {
+}, ref) => {
   return (
     <div className="flex flex-row items-start">
       <input
         id={id}
         type="checkbox"
+		ref={ref}
         className={twMerge(`mr-1.5 ${sizeClasses[scale]} accent-primary`, className)}
         disabled={disabled}
-        checked={checked}
+		{...(checked !== undefined ? { checked } : {})}
         onChange={onChange}
         {...rest}
       />
       <label htmlFor={id} className={twMerge(`${labelSizeClasses[scale]}`, labelClassName)}>{label}</label>
     </div>
   );
-}
+});

@@ -21,21 +21,17 @@ export function usePatientSearch() {
         }
     }, [data, isLoading, error]);
 
-	const onChangeIncludeReferences = (checked: boolean) => {
-		setFilters(prevState => ({ ...prevState, includeReferences: checked }));
-	}
-
-	const onSearch = async (name: string) => {
+	const onSearch = async (name: string, includeReferences: boolean) => {
         if (name.length === 0) {
 			showErrorMessage("Digite um nome para pesquisar");
             return;
         }
-		setFilters(prevState => ({ ...prevState, name }));
+		setFilters(prevState => ({ ...prevState, name, includeReferences }));
     }
 
 	const onClear = () => {
-        setFilters({ name: "", includeReferences: false });
+		setFilters(prevState => ({ ...prevState, name: "" }));
     }
 
-	return { filters, onChangeIncludeReferences, onSearch, onClear };
+	return { filters, onSearch, onClear };
 }
