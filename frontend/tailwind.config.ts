@@ -11,7 +11,7 @@ const config: Config = {
 				warning: "#D4BF08",
 				danger: "#B72136",
 				textPrimary: "#212B36",
-				backgroundColor: "#FAFAF8", // #F5F5F7, #FAFAF8
+				backgroundColor: "#FAFAF8",
 				borderColor: "#212B36",
 			},
 			zIndex: {
