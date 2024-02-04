@@ -1,7 +1,7 @@
+import { MedicalState } from "@/patients/models";
 import { usePatientForm } from "@/patients/hooks";
 import { Button, Dialog, TextInput } from "@/common/components";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/common/components";
-import { MedicalState } from "../models";
 
 type CreatePatientDialogProps = {
 	isOpen: boolean;
@@ -13,7 +13,7 @@ const ItemWrapper = ({ children }: { children: React.ReactNode }) => (
 );
 
 const Label = ({ text, htmlFor }: { text: string; htmlFor: string }) => (
-	<label className="block text-base font-medium" htmlFor={htmlFor}>{text}:</label>
+	<label className="text-base font-medium" htmlFor={htmlFor}>{text}:</label>
 );
 
 export function CreatePatientDialog({ isOpen, onOpenChange }: CreatePatientDialogProps) {
@@ -47,7 +47,7 @@ export function CreatePatientDialog({ isOpen, onOpenChange }: CreatePatientDialo
 				<ItemWrapper>
 					<Label text="Referência" htmlFor="reference" />
 					<Select id="reference">
-						<SelectTrigger>
+						<SelectTrigger className="py-0">
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
@@ -65,8 +65,8 @@ export function CreatePatientDialog({ isOpen, onOpenChange }: CreatePatientDialo
 
 				<ItemWrapper>
 					<Label text="Tipo" htmlFor="medicalStateCode" />
-					<Select id="medicalStateCode" onChange={(e) => onChange(e.target, "medicalStateCode")}>
-						<SelectTrigger>
+					<Select id="medicalStateCode">
+						<SelectTrigger className="py-0">
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
@@ -77,8 +77,8 @@ export function CreatePatientDialog({ isOpen, onOpenChange }: CreatePatientDialo
 
 				<ItemWrapper>
 					<Label text="Assinou termo" htmlFor="isTermSigned" />
-					<Select id="isTermSigned" onChange={(e) => onChange(e.target, "isTermSigned")}>
-						<SelectTrigger>
+					<Select id="isTermSigned">
+						<SelectTrigger className="py-0">
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
