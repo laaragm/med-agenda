@@ -6,6 +6,7 @@ export * from "./layout-wrapper";
 export * from "./loadable";
 export * from "./page";
 export * from "./popover";
+export * from "./scroll-area";
 export * from "./scroll-to-top";
 export * from "./search-bar";
 export * from "./spinner";

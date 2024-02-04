@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/common/utils";
 
 interface SpinnerProps {
     className?: string;
@@ -7,7 +7,7 @@ interface SpinnerProps {
 export function Spinner({ className }: SpinnerProps) {
   return (
     <div className="flex justify-center items-center">
-      <div className={twMerge('animate-spin rounded-full h-8 w-8 border-b-2 border-textPrimary', className)}></div>
+      <div className={cn('animate-spin rounded-full h-8 w-8 border-b-2 border-textPrimary', className)}></div>
     </div>
   );
 }

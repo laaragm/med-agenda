@@ -1,40 +1,40 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/common/utils";
 
 const Avatar = forwardRef<
-  ElementRef<typeof AvatarPrimitive.Root>,
-  ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
+  	ElementRef<typeof AvatarPrimitive.Root>,
+  	ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
 >(({ className, ...props }, ref) => (
   <AvatarPrimitive.Root
     ref={ref}
-    className={twMerge("relative flex h-9 w-9 shrink-0 overflow-hidden rounded-full", className)}
+    className={cn("relative flex h-9 w-9 shrink-0 overflow-hidden rounded-full", className)}
     {...props}
   />
 ))
 Avatar.displayName = AvatarPrimitive.Root.displayName;
 
 const AvatarImage = forwardRef<
-  ElementRef<typeof AvatarPrimitive.Image>,
-  ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
+ 	ElementRef<typeof AvatarPrimitive.Image>,
+  	ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
 >(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Image
-    ref={ref}
-    className={twMerge("aspect-square h-full w-full", className)}
-    {...props}
-  />
+	<AvatarPrimitive.Image
+		ref={ref}
+		className={cn("aspect-square h-full w-full", className)}
+		{...props}
+	/>
 ))
 AvatarImage.displayName = AvatarPrimitive.Image.displayName;
 
 const AvatarFallback = forwardRef<
-  ElementRef<typeof AvatarPrimitive.Fallback>,
-  ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
+  	ElementRef<typeof AvatarPrimitive.Fallback>,
+  	ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
 >(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Fallback
-    ref={ref}
-    className={twMerge("flex h-full w-full items-center justify-center rounded-full bg-muted", className)}
-    {...props}
-  />
+	<AvatarPrimitive.Fallback
+		ref={ref}
+		className={cn("flex h-full w-full items-center justify-center rounded-full bg-muted", className)}
+		{...props}
+	/>
 ))
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 

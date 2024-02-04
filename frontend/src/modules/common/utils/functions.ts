@@ -1,5 +1,12 @@
-import { IServiceResponse } from "../models";
-import { showErrorMessage, showSuccessMessage } from "./snackbars";
+import { twMerge } from "tailwind-merge";
+import { clsx, type ClassValue } from "clsx";
+
+import { IServiceResponse } from "@/common/models";
+import { showErrorMessage, showSuccessMessage } from "@/common/utils";
+
+export function cn(...inputs: ClassValue[]) {
+	return twMerge(clsx(inputs))
+}
 
 export function isStringNullOrEmpty(value: string | null | undefined) {
     return value == null || value === "" || value === undefined;

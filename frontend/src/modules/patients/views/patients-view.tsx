@@ -23,7 +23,11 @@ export function PatientsView() {
 				<div className="w-full md:w-[70%]">
 					{isLoading ? <Spinner className="w-12 h-12" /> : <PatientList patients={patients} />}
 				</div>
-				<img src={Illustration} width={366} height={318} alt="Illustration" className="invisible md:visible ml-auto" />
+				<img
+					src={Illustration}
+					alt="Illustration"
+					className="invisible md:visible aspect-w-1 aspect-h-1 md:aspect-w-4 md:aspect-h-3 animate-bounce-in-right fixed bottom-0 right-0 max-w-full h-auto"
+				/>
 			</div>
 		</Page>
 	);

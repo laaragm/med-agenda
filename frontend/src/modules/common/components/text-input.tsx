@@ -1,5 +1,5 @@
-import { forwardRef } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { forwardRef } from "react";
+import { cn } from "@/common/utils";
 
 interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
@@ -10,7 +10,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
 				ref={ref}
 				name={name}
 				type="text"
-				className={twMerge(
+				className={cn(
 					"w-full py-2 px-4 text-base text-textPrimary border border-borderColor shadow-sm rounded-3xl focus:outline-none focus:border-textPrimary",
 					className
 				)}

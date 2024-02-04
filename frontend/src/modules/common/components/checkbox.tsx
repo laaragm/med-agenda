@@ -1,5 +1,5 @@
-import { forwardRef } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { forwardRef } from "react";
+import { cn } from "@/common/utils";
 
 interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -40,13 +40,13 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
         id={id}
         type="checkbox"
 		ref={ref}
-        className={twMerge(`mr-1.5 ${sizeClasses[scale]} accent-primary`, className)}
+        className={cn(`mr-1.5 ${sizeClasses[scale]} accent-primary`, className)}
         disabled={disabled}
 		{...(checked !== undefined ? { checked } : {})}
         onChange={onChange}
         {...rest}
       />
-      <label htmlFor={id} className={twMerge(`${labelSizeClasses[scale]}`, labelClassName)}>{label}</label>
+      <label htmlFor={id} className={cn(`${labelSizeClasses[scale]}`, labelClassName)}>{label}</label>
     </div>
   );
 });

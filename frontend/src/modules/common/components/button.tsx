@@ -1,5 +1,5 @@
-import { Spinner } from '@/common/components';
-import { twMerge } from 'tailwind-merge';
+import { cn } from "@/common/utils";
+import { Spinner } from "@/common/components";
 
 type Variant =
 	"contained-primary"
@@ -45,7 +45,7 @@ export function Button({ text, disabled, className, children, loading = false, v
 	return (
 		<button
 			type={type}
-			className={twMerge(`flex flex-row items-center justify-center gap-2 w-full font-semibold rounded-lg	disabled:opacity-50 ${variants[variant]} ${sizes[size]}`, className)}
+			className={cn(`flex flex-row items-center justify-center gap-2 w-full font-semibold rounded-lg	disabled:opacity-50 ${variants[variant]} ${sizes[size]}`, className)}
 			disabled={disabled || loading}
 			{...rest}
 		>
