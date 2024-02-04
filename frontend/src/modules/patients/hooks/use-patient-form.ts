@@ -1,32 +1,47 @@
-import { useState } from "react";
+import { useRef } from 'react';
 
-import { IPatient } from "@/patients/models";
+type Element = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
 
-export function usePatientForm(initialData: IPatient = {} as IPatient) {
-  const [data, setData] = useState(initialData);
+export function usePatientForm<T extends Object>(onOpenChange: (isOpen: boolean) => void, initialData: T) {
+	const formRefs = useRef<{ [K in keyof T]?: Element }>({} as { [K in keyof T]?: Element });
 
-  const onChange = (target: HTMLInputElement | HTMLTextAreaElement, overridesKey: keyof typeof data) => {
-    let value: string | boolean | number;
-    switch(typeof data[overridesKey]){
-      case "string":
-        value = String(target.value);
-        break;
-      case "number":
-        value = +target.value;
-        break;
-      case "boolean":
-        value = !data[overridesKey] ?? true;
-        break;
-      default:
-        value = '';
-    }
+	const setRefs = (field: keyof T, element: Element) => {
+		formRefs.current[field] = element;
+	};
 
-    setData(state => ({ ...state, [overridesKey]: value }));
-  };
+	const onSubmit = (event: React.FormEvent<HTMLFormElement>): T => {
+		event.preventDefault();
+		const formData: Partial<T> = {};
+		Object.keys(formRefs.current).forEach((key) => {
+			const field = key as keyof T;
+			const ref = formRefs.current[field];
+			if (ref instanceof HTMLInputElement) {
+				formData[field] = ref.type === "checkbox" ? ref.checked : ref.value as any;
+			} else if (ref instanceof HTMLSelectElement || ref instanceof HTMLTextAreaElement) {
+				formData[field] = ref.value as any;
+			}
+		});
 
-  const onResetForm = (values: IPatient = {} as IPatient) => {
-    setData(values);
-  };
+		console.log("formData: ", formData);
 
-  return { data, onResetForm, onChange };
+		return formData as T;
+	};
+
+	const onResetForm = () => {
+		Object.keys(initialData).forEach((key) => {
+			const ref = formRefs.current[key as keyof T];
+			if (ref instanceof HTMLInputElement && ref.type === "checkbox") {
+			  ref.checked = initialData[key as keyof T] as boolean || false;
+			} else if (ref) {
+			  ref.value = initialData[key as keyof T] as string || '';
+			}
+		});
+	};
+
+	const onClose = () => {
+		onOpenChange(false);
+		onResetForm();
+	}
+
+	return { formRefs, setRefs, onClose, onSubmit, onResetForm };
 }
