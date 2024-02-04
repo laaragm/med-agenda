@@ -4,7 +4,7 @@ import { PatientList, PatientSearch } from "@/patients/components";
 import { useStore } from "@/store";
 
 export function PatientsView() {
-	const { includeReferences, onChangeIncludeReferences, onSearch  } = usePatientSearch();
+	const { includeReferences, onChangeIncludeReferences, onSearch, onClear  } = usePatientSearch();
 	const { patients, isLoading } = useStore();
 
 	return (
@@ -15,6 +15,7 @@ export function PatientsView() {
 						includeReferences={includeReferences}
 						onChangeIncludeReferences={onChangeIncludeReferences}
 						onSearch={onSearch}
+						onClear={onClear}
 					/>
 				</div>
 				<div className="ml-auto">

@@ -21,5 +21,9 @@ export function usePatientSearch() {
 		console.log('Response:', response);
 	}
 
-	return { includeReferences, onChangeIncludeReferences, onSearch };
+	const onClear = () => {
+		console.log('Clearing search');
+	}
+
+	return { includeReferences, onChangeIncludeReferences, onSearch, onClear };
 }
