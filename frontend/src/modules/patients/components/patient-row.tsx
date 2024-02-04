@@ -1,6 +1,7 @@
-import { isStringNullOrEmpty } from "@/modules/common/utils";
-import { IPatient, ISummarizedPatient, getMedicalStateName } from "@/patients/models";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/common/components/accordion";
+import { isStringNullOrEmpty } from "@/common/utils";
+import { IPatient, ISummarizedPatient } from "@/patients/models";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/common/components";
+import { PatientDetails } from "@/patients/components";
 
 type PatientRowProps = {
 	patient: ISummarizedPatient | IPatient;
@@ -8,12 +9,6 @@ type PatientRowProps = {
 	isLoadingDetails: boolean;
 	onExpand: () => void;
 }
-
-const Item = ({ label, data }: { label: string, data: string | number | undefined }) => (
-	<span className="flex flex-row gap-1 text-base">
-		<span className="font-semibold">{label}:</span> {!!data ? data : "Não informado"}
-	</span>
-);
 
 export function PatientRow({ patient, patientDetails, isLoadingDetails, onExpand }: PatientRowProps) {
 	return (
@@ -32,13 +27,7 @@ export function PatientRow({ patient, patientDetails, isLoadingDetails, onExpand
 						</span>
 					)}
 					{!!patientDetails && !isLoadingDetails && (
-						<div className="grid grid-cols-2 gap-2">
-							<Item label="Tipo" data={getMedicalStateName(patientDetails.medicalStateCode)} />
-							<Item label="Periodicidade" data={!!patientDetails.periodicityInDays ? `${patientDetails.periodicityInDays} dias` : undefined} />
-							<Item label="Referência" data={patientDetails.reference} />
-							<Item label="Assinou termo" data={patientDetails.isTermSigned ? "Sim" : "Não"} />
-							<Item label="Telefone" data={patientDetails.phoneNumber} />
-						</div>
+						<PatientDetails patient={patientDetails} />
 					)}
 				</AccordionContent>
 			</AccordionItem>
