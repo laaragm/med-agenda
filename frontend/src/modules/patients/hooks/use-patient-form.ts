@@ -1,47 +1,39 @@
-import { useRef } from 'react';
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-type Element = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
+const formSchema = z.object({
+	name: z.string().min(3, { message: "O nome precisa de ter pelo menos 3 caracteres." }),
+	medicalStateCode: z.string(),
+	isTermSigned: z.string(),
+	referencePatientId: z.string().optional(),
+	periodicityInDays: z.string().optional(),
+	phoneNumber: z.string().optional(),
+});
 
 export function usePatientForm<T extends Object>(onOpenChange: (isOpen: boolean) => void, initialData: T) {
-	const formRefs = useRef<{ [K in keyof T]?: Element }>({} as { [K in keyof T]?: Element });
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: !!initialData
+			? initialData
+			: {
+				name: "",
+				medicalStateCode: "1",
+				isTermSigned: "false",
+				referencePatientId: undefined,
+				periodicityInDays: undefined,
+				phoneNumber: undefined,
+			},
+	})
 
-	const setRefs = (field: keyof T, element: Element) => {
-		formRefs.current[field] = element;
-	};
-
-	const onSubmit = (event: React.FormEvent<HTMLFormElement>): T => {
-		event.preventDefault();
-		const formData: Partial<T> = {};
-		Object.keys(formRefs.current).forEach((key) => {
-			const field = key as keyof T;
-			const ref = formRefs.current[field];
-			if (ref instanceof HTMLInputElement) {
-				formData[field] = ref.type === "checkbox" ? ref.checked : ref.value as any;
-			} else if (ref instanceof HTMLSelectElement || ref instanceof HTMLTextAreaElement) {
-				formData[field] = ref.value as any;
-			}
-		});
-
-		console.log("formData: ", formData);
-
-		return formData as T;
-	};
-
-	const onResetForm = () => {
-		Object.keys(initialData).forEach((key) => {
-			const ref = formRefs.current[key as keyof T];
-			if (ref instanceof HTMLInputElement && ref.type === "checkbox") {
-			  ref.checked = initialData[key as keyof T] as boolean || false;
-			} else if (ref) {
-			  ref.value = initialData[key as keyof T] as string || '';
-			}
-		});
-	};
-
-	const onClose = () => {
-		onOpenChange(false);
-		onResetForm();
+	const onSubmit = (values: z.infer<typeof formSchema>) => {
+		console.log("submitting form: ", values);
 	}
 
-	return { formRefs, setRefs, onClose, onSubmit, onResetForm };
+	const onClose = () => {
+		form.reset();
+		onOpenChange(false);
+	}
+
+	return { form, onSubmit, onClose };
 }
