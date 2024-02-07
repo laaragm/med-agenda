@@ -1,15 +1,6 @@
-import { IPatient } from "@/patients/models";
 import { Post } from "@/common/services/base";
 import { IServiceResponse } from "@/common/models";
-
-type CreatePatientRequest = {
-	name: string;
-	medicalStateCode: number;
-	isTermSigned: boolean;
-	referencePatientId?: string;
-	periodicityInDays?: number;
-	phoneNumber?: string;
-};
+import { CreatePatientRequest, IPatient } from "@/patients/models";
 
 export async function CreatePatient(body: CreatePatientRequest): Promise<IServiceResponse<IPatient>> {
 	const result = await Post<IPatient>({

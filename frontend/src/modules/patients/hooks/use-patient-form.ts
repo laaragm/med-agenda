@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { MedicalState } from "@/patients/models";
+import { CreatePatientRequest, MedicalState } from "@/patients/models";
+import { useCreatePatient } from "@/patients/hooks";
+import { handleResponse } from "@/modules/common/utils";
 
 const formSchema = z.object({
 	name: z.string().min(3, { message: "O nome precisa de ter pelo menos 3 caracteres." }),
@@ -14,6 +17,8 @@ const formSchema = z.object({
 });
 
 export function usePatientForm<T extends Object>(onOpenChange: (isOpen: boolean) => void, initialData?: T) {
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const { mutation: create } = useCreatePatient();
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: !!initialData
@@ -28,8 +33,21 @@ export function usePatientForm<T extends Object>(onOpenChange: (isOpen: boolean)
 			}
 	});
 
-	const onSubmit = (values: z.infer<typeof formSchema>) => {
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		console.log("submitting form: ", values);
+		setIsSubmitting(true);
+		const patient = {
+			...values,
+			medicalStateCode: Number(values.medicalStateCode),
+			isTermSigned: values.isTermSigned === "true",
+			periodicityInDays: values.periodicityInDays ? Number(values.periodicityInDays) : undefined,
+		} as CreatePatientRequest;
+		const response = await create.mutateAsync(patient);
+		if (!response.error) {
+            onClose();
+        }
+		setIsSubmitting(false);
+        handleResponse(response);
 	}
 
 	const onClose = () => {
@@ -37,5 +55,5 @@ export function usePatientForm<T extends Object>(onOpenChange: (isOpen: boolean)
 		onOpenChange(false);
 	}
 
-	return { form, onSubmit, onClose };
+	return { form, isSubmitting, onSubmit, onClose };
 }
