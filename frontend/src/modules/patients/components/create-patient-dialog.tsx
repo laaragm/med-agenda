@@ -1,30 +1,30 @@
-import { IPatient, MedicalState } from "@/patients/models";
 import { usePatientForm } from "@/patients/hooks";
-import { Button, Dialog, TextInput } from "@/common/components";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/common/components";
+import { IPatient, MedicalState } from "@/patients/models";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+	Button,
+	Dialog,
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+	TextInput
+} from "@/common/components";
+import Illustration from "@/assets/alien-spaceship-illustration.svg";
 
 type CreatePatientDialogProps = {
 	isOpen: boolean;
 	onOpenChange: (open: boolean) => void;
 }
 
-const ItemWrapper = ({ children, text, htmlFor }: { children: React.ReactNode; text: string; htmlFor: string }) => (
-	<div className="flex flex-row w-full gap-2">
-		<label className="text-base font-medium" htmlFor={htmlFor}>{text}:</label>
-		{children}
-	</div>
-);
-
 export function CreatePatientDialog({ isOpen, onOpenChange }: CreatePatientDialogProps) {
-	const initialData = {
-		name: "",
-		medicalStateCode: 1,
-		isTermSigned: false,
-		reference: "",
-		periodicityInDays: undefined,
-		phoneNumber: undefined,
-	} as Partial<IPatient>;
-	const { formRefs, setRefs, onSubmit, onClose } = usePatientForm(onOpenChange, initialData);
+	const { form, onSubmit, onClose } = usePatientForm(onOpenChange);
 	const medicalStateKeys = Object.keys(MedicalState).filter((key) => isNaN(Number(key)));
 
 	return (
@@ -36,59 +36,131 @@ export function CreatePatientDialog({ isOpen, onOpenChange }: CreatePatientDialo
 		>
 			<h2 className="text-xl font-semibold">Cadastrar novo paciente</h2>
 
-			<form className="space-y-6 mt-6" onSubmit={onSubmit}>
-				<ItemWrapper text="Name" htmlFor="name">
-					<TextInput id="name" ref={el => setRefs("name", el)} className="py-0 px-2" />
-				</ItemWrapper>
+			<Form {...form}>
+				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-6 z-50">
+					<FormField
+						control={form.control}
+						name="name"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Nome</FormLabel>
+								<FormControl>
+									<TextInput className="py-0 px-2 h-8" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-				<ItemWrapper text="Referência" htmlFor="reference">
-					<Select id="reference" ref={(el: any) => setRefs("reference", el)}>
-						<SelectTrigger className="py-0">
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="light">Light</SelectItem>
-							<SelectItem value="dark">Dark</SelectItem>
-							<SelectItem value="system">System</SelectItem>
-						</SelectContent>
-					</Select>
-				</ItemWrapper>
+					<FormField
+						control={form.control}
+						name="referencePatientId"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Referência</FormLabel>
+								<FormControl>
+									<Select onValueChange={field.onChange} defaultValue={field.value}>
+										<SelectTrigger className="py-1 h-8">
+											<SelectValue />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectItem value="light">Light</SelectItem>
+											<SelectItem value="dark">Dark</SelectItem>
+											<SelectItem value="system">System</SelectItem>
+										</SelectContent>
+									</Select>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-				<ItemWrapper text="Periodicidade" htmlFor="periodicityInDays">
-					<TextInput id="periodicityInDays" ref={el => setRefs("periodicityInDays", el)} type="number" className="py-0 px-2" />
-				</ItemWrapper>
+					<FormField
+						control={form.control}
+						name="periodicityInDays"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Periodicidade</FormLabel>
+								<FormControl>
+									<TextInput className="py-0 px-2 h-8" value={!!field.value ? +field.value : undefined} onChange={field.onChange} type="number" />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-				<ItemWrapper text="Tipo" htmlFor="medicalStateCode">
-					<Select id="medicalStateCode" ref={(el: any) => setRefs("medicalStateCode", el)}>
-						<SelectTrigger className="py-0">
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent>
-							{medicalStateKeys.map((key) => <SelectItem key={key} value={MedicalState[key as any]}>{key}</SelectItem>)}
-						</SelectContent>
-					</Select>
-				</ItemWrapper>
+					<FormField
+						control={form.control}
+						name="medicalStateCode"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Tipo</FormLabel>
+								<FormControl>
+									<Select onValueChange={field.onChange} defaultValue={field.value}>
+										<SelectTrigger className="py-1 h-8">
+											<SelectValue />
+										</SelectTrigger>
+										<SelectContent>
+											{medicalStateKeys.map((key) => <SelectItem key={key} value={String(MedicalState[key as any])}>{key}</SelectItem>)}
+										</SelectContent>
+									</Select>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-				<ItemWrapper text="Assinou termo" htmlFor="isTermSigned">
-					<Select id="isTermSigned" ref={(el: any) => setRefs("isTermSigned", el)}>
-						<SelectTrigger className="py-0">
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value={true}>Sim</SelectItem>
-							<SelectItem value={false}>Não</SelectItem>
-						</SelectContent>
-					</Select>
-				</ItemWrapper>
+					<FormField
+						control={form.control}
+						name="isTermSigned"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Assinou termo</FormLabel>
+								<FormControl>
+									<Select onValueChange={field.onChange} defaultValue={field.value}>
+										<SelectTrigger className="py-1 h-8">
+											<SelectValue />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectItem value="true">Sim</SelectItem>
+											<SelectItem value="false">Não</SelectItem>
+										</SelectContent>
+									</Select>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-				<ItemWrapper text="Telefone" htmlFor="phoneNumber">
-					<TextInput id="phoneNumber" ref={el => setRefs("phoneNumber", el)} className="py-0 px-2" />
-				</ItemWrapper>
+					<FormField
+						control={form.control}
+						name="phoneNumber"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Telefone</FormLabel>
+								<FormControl>
+									<TextInput className="py-0 px-2 h-8" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-				<div className="flex items-end justify-end">
-					<Button type="submit" className="w-fit px-12">Salvar</Button>
-				</div>
-			</form>
+					<div className="flex items-end justify-end">
+						<div className="flex flex-row items-center">
+							<img
+								src={Illustration}
+								alt="Spaceship Illustration"
+								width={100}
+								height={100}
+								className="absolute left-0"
+								aria-hidden="true"
+							/>
+							<Button type="submit" className="w-fit px-12">Salvar</Button>
+						</div>
+					</div>
+				</form>
+			</Form>
 		</Dialog>
 	);
 }
