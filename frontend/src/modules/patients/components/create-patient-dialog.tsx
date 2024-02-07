@@ -1,4 +1,4 @@
-import { usePatientForm } from "@/patients/hooks";
+import { usePatientForm, usePatients } from "@/patients/hooks";
 import { IPatient, MedicalState } from "@/patients/models";
 import {
 	Select,
@@ -25,6 +25,7 @@ type CreatePatientDialogProps = {
 
 export function CreatePatientDialog({ isOpen, onOpenChange }: CreatePatientDialogProps) {
 	const { form, onSubmit, onClose } = usePatientForm(onOpenChange);
+	const { data } = usePatients();
 	const medicalStateKeys = Object.keys(MedicalState).filter((key) => isNaN(Number(key)));
 
 	return (
@@ -64,9 +65,9 @@ export function CreatePatientDialog({ isOpen, onOpenChange }: CreatePatientDialo
 											<SelectValue />
 										</SelectTrigger>
 										<SelectContent>
-											<SelectItem value="light">Light</SelectItem>
-											<SelectItem value="dark">Dark</SelectItem>
-											<SelectItem value="system">System</SelectItem>
+											{data?.result?.map((patient) => (
+												<SelectItem key={patient.id} value={patient.id}>{patient.name}</SelectItem>
+											))}
 										</SelectContent>
 									</Select>
 								</FormControl>

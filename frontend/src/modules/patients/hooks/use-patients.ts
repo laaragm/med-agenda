@@ -5,7 +5,7 @@ import { GetPatients } from "@/patients/services";
 import { ISummarizedPatient } from "@/patients/models";
 import { IServiceResponse, QueryKeys } from "@/common/models";
 
-export function usePatients(name: string, includeReferences: boolean) {
+export function usePatients(name?: string, includeReferences?: boolean) {
 	const { user } = useAuth();
 	const { data, isLoading, isFetching, error, refetch } = useQuery({
 		queryKey: [QueryKeys.Patients, name, includeReferences],
