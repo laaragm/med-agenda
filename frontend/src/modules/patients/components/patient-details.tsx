@@ -18,6 +18,7 @@ const Item = ({ label, data }: { label: string, data: string | number | undefine
 
 export function PatientDetails({ patient }: PatientDetailsProps) {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const { mutation } = useDeletePatient();
 
 	const handleEdit = () => {
@@ -25,7 +26,9 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 	}
 
 	const handleDelete = async () => {
+		setIsLoading(true);
 		const response = await mutation.mutateAsync(patient.id);
+		setIsLoading(false);
 		handleResponse(response);
 	}
 
@@ -42,7 +45,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 				<div className="flex flex-row gap-2">
 					<Button variant="contained-tertiary" size="small" className="w-fit" onClick={handleEdit}>Editar paciente</Button>
 					<Button size="small" className="w-fit" onClick={() => console.log("Show observations")}>Exibir observações</Button>
-					<Button variant="contained-danger" className="w-fit" size="small" onClick={handleDelete}>Excluir paciente</Button>
+					<Button variant="contained-danger" loading={isLoading} className="w-fit" size="small" onClick={handleDelete}>Excluir paciente</Button>
 				</div>
 			</div>
 

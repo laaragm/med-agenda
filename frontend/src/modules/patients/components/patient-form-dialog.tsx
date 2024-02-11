@@ -24,19 +24,20 @@ type PatientFormDialogProps = {
 }
 
 export function PatientFormDialog({ initialData, onOpenChange }: PatientFormDialogProps) {
-	const isUpdateOperation = !!initialData;
 	const { form, isSubmitting, onSubmit, onClose } = usePatientForm(onOpenChange, initialData as any);
 	const { data } = usePatients();
 	const medicalStateKeys = Object.keys(MedicalState).filter((key) => isNaN(Number(key)));
+	const title = !!initialData ? "Atualizar paciente" : "Cadastrar novo paciente";
+	console.log(form.getValues());
 
 	return (
 		<Dialog
 			isOpen={true}
-			aria-labelledby={isUpdateOperation ? "Atualizar paciente" : "Cadastrar novo paciente"}
+			aria-labelledby={title}
 			className="max-w-[95%] sm:max-w-[90%] md:max-w-[60%] p-6 rounded-lg shadow-md"
 			onOpenChange={onClose}
 		>
-			<h2 className="text-xl font-semibold">{isUpdateOperation ? "Atualizar paciente" : "Cadastrar novo paciente"}</h2>
+			<h2 className="text-xl font-semibold">{title}</h2>
 
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-6 z-50">

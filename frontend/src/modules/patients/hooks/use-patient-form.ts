@@ -8,7 +8,7 @@ import { useCreatePatient, useUpdatePatient } from "@/patients/hooks";
 import { CreatePatientRequest, MedicalState, UpdatePatientRequest } from "@/patients/models";
 
 const formSchema = z.object({
-	id: z.string().nullable(),
+	id: z.string().optional().nullable(),
 	name: z.string().min(3, { message: "O nome precisa de ter pelo menos 3 caracteres." }),
 	medicalStateCode: z.string(),
 	isTermSigned: z.string(),
@@ -44,6 +44,7 @@ export function usePatientForm(onOpenChange: (isOpen: boolean) => void, initialD
 			medicalStateCode: Number(data.medicalStateCode),
 			isTermSigned: data.isTermSigned === "true",
 			periodicityInDays: data.periodicityInDays ? Number(data.periodicityInDays) : undefined,
+			referenceId: !!data.referenceId ? data.referenceId : null,
 		};
 	}
 
