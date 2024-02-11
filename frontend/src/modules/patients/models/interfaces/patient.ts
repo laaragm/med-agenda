@@ -3,7 +3,8 @@ export interface IPatient {
 	name: string;
 	medicalStateCode: number;
 	isTermSigned: boolean;
-	reference: string;
+	referenceId?: string;
+	referenceName: string;
 	periodicityInDays?: number;
 	phoneNumber?: string;
 }
@@ -11,6 +12,6 @@ export interface IPatient {
 export interface ISummarizedPatient {
 	id: string;
 	name: string;
-	reference: string;
+	referenceName: string;
 	isTermSigned: boolean;
 }

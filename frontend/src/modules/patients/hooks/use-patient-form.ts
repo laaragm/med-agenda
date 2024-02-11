@@ -11,7 +11,7 @@ const formSchema = z.object({
 	name: z.string().min(3, { message: "O nome precisa de ter pelo menos 3 caracteres." }),
 	medicalStateCode: z.string(),
 	isTermSigned: z.string(),
-	referencePatientId: z.string().optional(),
+	referenceId: z.string().optional(),
 	periodicityInDays: z.string().optional(),
 	phoneNumber: z.string().optional(),
 });
@@ -27,7 +27,7 @@ export function usePatientForm<T extends Object>(onOpenChange: (isOpen: boolean)
 				name: "",
 				medicalStateCode: String(MedicalState.Normal),
 				isTermSigned: "false",
-				referencePatientId: "",
+				referenceId: "",
 				periodicityInDays: undefined,
 				phoneNumber: undefined,
 			}

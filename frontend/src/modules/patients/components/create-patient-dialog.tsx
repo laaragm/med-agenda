@@ -57,7 +57,7 @@ export function CreatePatientDialog({ isOpen, initialData, onOpenChange }: Creat
 
 					<FormField
 						control={form.control}
-						name="referencePatientId"
+						name="referenceId"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Referência</FormLabel>

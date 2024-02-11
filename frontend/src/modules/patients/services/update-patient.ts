@@ -7,7 +7,7 @@ type UpdatePatientRequest = {
 	name: string;
 	medicalStateCode: number;
 	isTermSigned: boolean;
-	referencePatientId?: string;
+	referenceId?: string;
 	periodicityInDays?: number;
 	phoneNumber?: string;
 };

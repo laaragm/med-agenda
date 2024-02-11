@@ -25,7 +25,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 				<div className="grid grid-cols-2 gap-2">
 					<Item label="Tipo" data={getMedicalStateName(patient.medicalStateCode)} />
 					<Item label="Periodicidade" data={!!patient.periodicityInDays ? `${patient.periodicityInDays} dias` : undefined} />
-					<Item label="Referência" data={patient.reference} />
+					<Item label="Referência" data={patient.referenceName} />
 					<Item label="Assinou termo" data={patient.isTermSigned ? "Sim" : "Não"} />
 					<Item label="Telefone" data={patient.phoneNumber} />
 				</div>

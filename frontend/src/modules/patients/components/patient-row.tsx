@@ -16,7 +16,7 @@ export function PatientRow({ patient, patientDetails, isLoadingDetails, onExpand
 			<AccordionItem value={patient.id}>
 				<AccordionTrigger onClick={onExpand}>
 					<span className="flex flex-row gap-2">
-						{patient.name} {isStringNullOrEmpty(patient.reference) ? "" : `(${patient.reference})`}
+						{patient.name} {isStringNullOrEmpty(patient.referenceName) ? "" : `(${patient.referenceName})`}
 						{!patient.isTermSigned && <Badge text="Não assinou termo" variant="danger" />}
 					</span>
 				</AccordionTrigger>
