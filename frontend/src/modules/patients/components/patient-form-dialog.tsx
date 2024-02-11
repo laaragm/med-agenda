@@ -19,12 +19,11 @@ import {
 import Illustration from "@/assets/alien-spaceship-illustration.svg";
 
 type PatientFormDialogProps = {
-	isOpen: boolean;
 	initialData?: IPatient;
 	onOpenChange: (open: boolean) => void;
 }
 
-export function PatientFormDialog({ isOpen, initialData, onOpenChange }: PatientFormDialogProps) {
+export function PatientFormDialog({ initialData, onOpenChange }: PatientFormDialogProps) {
 	const isUpdateOperation = !!initialData;
 	const { form, isSubmitting, onSubmit, onClose } = usePatientForm(onOpenChange, initialData as any);
 	const { data } = usePatients();
@@ -32,7 +31,7 @@ export function PatientFormDialog({ isOpen, initialData, onOpenChange }: Patient
 
 	return (
 		<Dialog
-			isOpen={isOpen}
+			isOpen={true}
 			aria-labelledby={isUpdateOperation ? "Atualizar paciente" : "Cadastrar novo paciente"}
 			className="max-w-[95%] sm:max-w-[90%] md:max-w-[60%] p-6 rounded-lg shadow-md"
 			onOpenChange={onClose}

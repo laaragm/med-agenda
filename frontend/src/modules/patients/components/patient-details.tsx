@@ -44,7 +44,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 				</div>
 			</div>
 
-			<PatientFormDialog isOpen={isDialogOpen} initialData={patient} onOpenChange={setIsDialogOpen} />
+			{isDialogOpen && <PatientFormDialog initialData={patient} onOpenChange={setIsDialogOpen} />}
 		</>
 	);
 }

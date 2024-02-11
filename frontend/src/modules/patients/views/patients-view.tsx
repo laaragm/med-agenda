@@ -38,7 +38,7 @@ export function PatientsView() {
 				/>
 			</div>
 
-			<PatientFormDialog isOpen={isDialogOpen} onOpenChange={setIsDialogOpen} />
+			{isDialogOpen && <PatientFormDialog onOpenChange={setIsDialogOpen} />}
 		</Page>
 	);
 }
