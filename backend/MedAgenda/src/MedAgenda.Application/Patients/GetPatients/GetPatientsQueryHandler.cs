@@ -26,7 +26,7 @@ public sealed class GetPatientsQueryHandler : IQueryHandler<GetPatientsQuery, IR
 				p.Id AS Id,
 				p.Name AS Name,
 				p.IsTermSigned AS IsTermSigned,
-				r.Name as Reference
+				r.Name as ReferenceName
 			FROM [dbo].[Patients] AS p
 			LEFT JOIN [dbo].[Patients] AS r ON p.ReferencePatientId = r.Id
 			{condition}

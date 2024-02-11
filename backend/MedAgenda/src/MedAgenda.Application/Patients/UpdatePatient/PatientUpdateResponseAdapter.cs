@@ -17,7 +17,7 @@ public class PatientUpdateResponseAdapter : IPatientUpdateResponseAdapter
 			IsTermSigned = patient.IsTermSigned.Value,
 			PeriodicityInDays = patient.PeriodicityInDays?.Value,
 			PhoneNumber = patient.PhoneNumber?.Value,
-			Reference = referenceName
+			ReferenceName = referenceName
 		};
 	}
 }

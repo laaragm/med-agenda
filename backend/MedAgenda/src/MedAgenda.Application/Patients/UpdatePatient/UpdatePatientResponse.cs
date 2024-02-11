@@ -8,5 +8,5 @@ public sealed class UpdatePatientResponse
 	public bool IsTermSigned { get; init; }
 	public int? PeriodicityInDays { get; init; }
 	public string? PhoneNumber { get; init; }
-	public string? Reference { get; init; }
+	public string? ReferenceName { get; init; }
 }

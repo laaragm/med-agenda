@@ -8,5 +8,6 @@ public sealed class GetPatientResponse
 	public bool IsTermSigned { get; init; }
 	public int? PeriodicityInDays { get; init; }
 	public string? PhoneNumber { get; init; }
-	public string Reference { get; init; }
+	public Guid? ReferenceId { get; init; }
+	public string ReferenceName { get; init; }
 }

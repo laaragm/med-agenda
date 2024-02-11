@@ -25,7 +25,8 @@ public sealed class GetPatientQueryHandler : IQueryHandler<GetPatientQuery, GetP
 				p.PhoneNumber AS PhoneNumber,
 				p.MedicalState AS MedicalStateCode,
 				p.PeriodicityInDays AS PeriodicityInDays,
-				r.Name as Reference
+				r.Id AS ReferenceId,
+				r.Name as ReferenceName
 			FROM [dbo].[Patients] AS p
 			LEFT JOIN [dbo].[Patients] AS r ON p.ReferencePatientId = r.Id
 			WHERE p.Id = @id
