@@ -41,6 +41,12 @@ const sizes: { [key in Size]: string } = {
     large: "px-6 py-3 text-lg"
 };
 
+const loadingSizes: { [key in Size]: string } = {
+	small: "h-2 w-2",
+	medium: "h-4 w-4",
+	large: "h-6 w-6"
+};
+
 export function Button({ text, disabled, className, children, loading = false, variant = "contained-primary", size = "medium", type = "button", ...rest }: ButtonProps) {
 	return (
 		<button
@@ -51,7 +57,7 @@ export function Button({ text, disabled, className, children, loading = false, v
 		>
 			{text}
 			{children}
-			{loading && <Spinner className="h-4 w-4 border-current" />}
+			{loading && <Spinner className={`${loadingSizes[size]} border-current`} />}
 		</button>
 	);
 }
