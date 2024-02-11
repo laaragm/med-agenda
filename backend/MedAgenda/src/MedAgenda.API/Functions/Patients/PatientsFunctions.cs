@@ -56,7 +56,7 @@ public class PatientsFunctions : FunctionBase
 			var result = await _sender.Send(command, cancellationToken);
 
 			if (result.IsFailure)
-				return await ErrorResponse(req, result.Error, HttpStatusCode.BadRequest);
+				return await ErrorResponse(req, result.Error, result.Error.StatusCode is null ? HttpStatusCode.BadRequest : (HttpStatusCode)result.Error.StatusCode);
 
 			return await SuccessResponse(req, result.Value, HttpStatusCode.Created);
 		}
@@ -84,7 +84,7 @@ public class PatientsFunctions : FunctionBase
 			var result = await _sender.Send(query, cancellationToken);
 
 			if (result.IsFailure)
-				return await ErrorResponse(req, result.Error, HttpStatusCode.BadRequest);
+				return await ErrorResponse(req, result.Error, result.Error.StatusCode is null ? HttpStatusCode.BadRequest : (HttpStatusCode)result.Error.StatusCode);
 
 			return await SuccessResponse(req, result.Value, HttpStatusCode.OK);
 		}
@@ -110,7 +110,7 @@ public class PatientsFunctions : FunctionBase
 			var result = await _sender.Send(query, cancellationToken);
 
 			if (result.IsFailure)
-				return await ErrorResponse(req, result.Error, HttpStatusCode.BadRequest);
+				return await ErrorResponse(req, result.Error, result.Error.StatusCode is null ? HttpStatusCode.BadRequest : (HttpStatusCode)result.Error.StatusCode);
 
 			return await SuccessResponse(req, result.IsSuccess, HttpStatusCode.OK);
 		}
@@ -136,7 +136,7 @@ public class PatientsFunctions : FunctionBase
 			var result = await _sender.Send(query, cancellationToken);
 
 			if (result.IsFailure)
-				return await ErrorResponse(req, result.Error, HttpStatusCode.NotFound);
+				return await ErrorResponse(req, result.Error, result.Error.StatusCode is null ? HttpStatusCode.BadRequest : (HttpStatusCode)result.Error.StatusCode);
 
 			return await SuccessResponse(req, result.Value, HttpStatusCode.OK);
 		}
@@ -178,7 +178,7 @@ public class PatientsFunctions : FunctionBase
 			var result = await _sender.Send(command, cancellationToken);
 
 			if (result.IsFailure)
-				return await ErrorResponse(req, result.Error, HttpStatusCode.BadRequest);
+				return await ErrorResponse(req, result.Error, result.Error.StatusCode is null ? HttpStatusCode.BadRequest : (HttpStatusCode)result.Error.StatusCode);
 
 			return await SuccessResponse(req, result.Value, HttpStatusCode.Created);
 		}

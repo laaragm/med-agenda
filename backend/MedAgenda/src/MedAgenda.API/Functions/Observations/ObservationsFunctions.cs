@@ -48,7 +48,7 @@ internal class ObservationsFunctions : FunctionBase
 			var result = await _sender.Send(command, cancellationToken);
 
 			if (result.IsFailure)
-				return await ErrorResponse(req, result.Error, HttpStatusCode.BadRequest);
+				return await ErrorResponse(req, result.Error, result.Error.StatusCode is null ? HttpStatusCode.BadRequest : (HttpStatusCode)result.Error.StatusCode);
 
 			return await SuccessResponse(req, result.Value, HttpStatusCode.Created);
 		}
@@ -81,7 +81,7 @@ internal class ObservationsFunctions : FunctionBase
 			var result = await _sender.Send(query, cancellationToken);
 
 			if (result.IsFailure)
-				return await ErrorResponse(req, result.Error, HttpStatusCode.BadRequest);
+				return await ErrorResponse(req, result.Error, result.Error.StatusCode is null ? HttpStatusCode.BadRequest : (HttpStatusCode)result.Error.StatusCode);
 
 			return await SuccessResponse(req, result.Value, HttpStatusCode.OK);
 		}
@@ -107,7 +107,7 @@ internal class ObservationsFunctions : FunctionBase
 			var result = await _sender.Send(query, cancellationToken);
 
 			if (result.IsFailure)
-				return await ErrorResponse(req, result.Error, HttpStatusCode.BadRequest);
+				return await ErrorResponse(req, result.Error, result.Error.StatusCode is null ? HttpStatusCode.BadRequest : (HttpStatusCode)result.Error.StatusCode);
 
 			return await SuccessResponse(req, result.IsSuccess, HttpStatusCode.OK);
 		}
@@ -142,7 +142,7 @@ internal class ObservationsFunctions : FunctionBase
 			var result = await _sender.Send(command, cancellationToken);
 
 			if (result.IsFailure)
-				return await ErrorResponse(req, result.Error, HttpStatusCode.BadRequest);
+				return await ErrorResponse(req, result.Error, result.Error.StatusCode is null ? HttpStatusCode.BadRequest : (HttpStatusCode)result.Error.StatusCode);
 
 			return await SuccessResponse(req, result.Value, HttpStatusCode.Created);
 		}
