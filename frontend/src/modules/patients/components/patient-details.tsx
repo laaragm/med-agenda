@@ -2,7 +2,8 @@ import { useState } from "react";
 
 import { Button } from "@/common/components";
 import { IPatient, getMedicalStateName } from "@/patients/models";
-import { PatientFormDialog } from ".";
+import { PatientFormDialog } from "./patient-form-dialog";
+import { useDeletePatient } from "../hooks/use-delete-patient";
 
 type PatientDetailsProps = {
 	patient: IPatient;
@@ -16,8 +17,15 @@ const Item = ({ label, data }: { label: string, data: string | number | undefine
 
 export function PatientDetails({ patient }: PatientDetailsProps) {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const { mutation } = useDeletePatient();
 
-	const handleEdit = () => setIsDialogOpen(true);
+	const handleEdit = () => {
+		setIsDialogOpen(true);
+	}
+
+	const handleDelete = () => {
+		mutation.mutate(patient.id);
+	}
 
 	return (
 		<>
@@ -32,7 +40,7 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 				<div className="flex flex-row gap-2">
 					<Button variant="contained-tertiary" size="small" className="w-fit" onClick={handleEdit}>Editar paciente</Button>
 					<Button size="small" className="w-fit" onClick={() => console.log("Show observations")}>Exibir observações</Button>
-					<Button variant="contained-danger" className="w-fit" size="small" onClick={() => console.log("Delete")}>Excluir paciente</Button>
+					<Button variant="contained-danger" className="w-fit" size="small" onClick={handleDelete}>Excluir paciente</Button>
 				</div>
 			</div>
 

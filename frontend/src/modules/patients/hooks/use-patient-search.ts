@@ -10,7 +10,6 @@ export function usePatientSearch() {
 	const { setPatients, setIsLoading } = useStore();
 
 	useEffect(() => {
-        console.log("data: ", data);
         setIsLoading(isLoading);
         if (error) {
 			showErrorMessage("Ocorreu um erro ao buscar os pacientes");

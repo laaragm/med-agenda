@@ -10,7 +10,6 @@ export function usePatientDetails() {
 	const { setCurrentPatient, setIsLoadingCurrentPatient } = useStore();
 
 	useEffect(() => {
-        console.log("data: ", data);
         setIsLoadingCurrentPatient(isLoading);
         if (error) {
 			showErrorMessage("Ocorreu um erro ao buscar os detalhes do paciente");

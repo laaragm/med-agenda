@@ -2,12 +2,11 @@ import { useMutation } from "@tanstack/react-query";
 
 import { QueryKeys } from "@/common/models";
 import { queryClient } from "@/common/services";
-import { CreatePatient } from "@/patients/services";
-import { CreatePatientRequest } from "@/patients/models";
+import { DeletePatient } from "@/patients/services";
 
-export function useCreatePatient() {
+export function useDeletePatient() {
     const mutation = useMutation({
-        mutationFn: async (patient: CreatePatientRequest) => CreatePatient(patient),
+        mutationFn: async (id: string) => DeletePatient(id),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: [QueryKeys.Patients] }),
     });
 

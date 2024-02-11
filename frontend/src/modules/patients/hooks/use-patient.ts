@@ -3,7 +3,7 @@ import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/common/hooks";
 import { IPatient } from "@/patients/models";
 import { GetPatient } from "@/patients/services";
-import { isStringNullOrEmpty } from "@/modules/common/utils";
+import { isStringNullOrEmpty } from "@/common/utils";
 import { IServiceResponse, QueryKeys } from "@/common/models";
 
 export function usePatient(id: string) {

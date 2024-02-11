@@ -1,5 +1,5 @@
+import { Patch } from "@/common/services";
 import { IPatient } from "@/patients/models";
-import { Patch } from "@/common/services/base";
 import { IServiceResponse } from "@/common/models";
 
 type UpdatePatientRequest = {
@@ -14,8 +14,8 @@ type UpdatePatientRequest = {
 
 export async function UpdatePatient(body: UpdatePatientRequest): Promise<IServiceResponse<IPatient>> {
 	const result = await Patch<IPatient>({
-		route: "patients",
-		defaultErrorMessage: "Failed to update patient.",
+		route: `patients/${body.id}`,
+		defaultErrorMessage: "Não foi possível atualizar os dados do paciente",
 		body: JSON.stringify(body),
 	});
 

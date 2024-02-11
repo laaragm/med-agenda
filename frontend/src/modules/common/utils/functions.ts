@@ -16,7 +16,7 @@ export function handleResponse<T>(response: IServiceResponse<T>, successMessage?
     if (response.error) {
         showErrorMessage(response.errorMessage);
     } else {
-        const defaultMessage = "Operation completed successfully";
+        const defaultMessage = "Operação realizada com sucesso";
         showSuccessMessage(successMessage ? successMessage : defaultMessage);
     }
 }
