@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { Axios, AxiosInstance, AxiosRequestConfig } from "axios";
 
 import { IServiceResponse } from "@/common/models";
 import { api as defaultApi } from "./api";
@@ -55,7 +55,7 @@ const BaseRequest = async <T>(requestParams: BaseRequestParams): Promise<IServic
 
     try {
         const response = await PerformRequest({ httpMethod, defaultErrorMessage, route, body, config, api });
-        const requestWasSuccessful = response && response.status.toString().startsWith("2");
+        const requestWasSuccessful = response && response.status >= 200 && response.status < 300;
         if (requestWasSuccessful) {
             resultFormatted.result = response.data;
         } else {
@@ -64,7 +64,7 @@ const BaseRequest = async <T>(requestParams: BaseRequestParams): Promise<IServic
         }
     } catch (error) {
         resultFormatted.error = true;
-        resultFormatted.errorMessage = error instanceof Error && !!error?.message ? error.message : defaultErrorMessage;
+		resultFormatted.errorMessage = getErrorMessageFromError(error, defaultErrorMessage);
     }
 
     return resultFormatted;
@@ -91,3 +91,25 @@ const PerformRequest = async (requestParams: BaseRequestParams) => {
         }
     }
 };
+
+const getErrorMessageFromError = (error: unknown, defaultErrorMessage: string) => {
+    if (axios.isAxiosError(error)) {
+        // Axios error with response data
+        if (error.response && error.response.data) {
+            if (error.response.data.name) {
+                // Server provided 'name' property
+                return error.response.data.name;
+            } else if (error.response.data.message) {
+                // Server provided 'message' property
+                return error.response.data.message;
+            }
+        }
+        // Fallback to Axios error message if no detailed server response is found
+        return error.message || defaultErrorMessage;
+    } else if (error instanceof Error) {
+        // Non-Axios error
+        return error.message;
+    }
+    // Default error message if error format is unexpected
+    return defaultErrorMessage;
+}

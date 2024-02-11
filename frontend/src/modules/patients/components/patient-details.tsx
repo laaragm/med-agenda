@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { Button } from "@/common/components";
+import { handleResponse } from "@/common/utils";
 import { IPatient, getMedicalStateName } from "@/patients/models";
 import { PatientFormDialog } from "./patient-form-dialog";
 import { useDeletePatient } from "../hooks/use-delete-patient";
@@ -23,8 +24,9 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 		setIsDialogOpen(true);
 	}
 
-	const handleDelete = () => {
-		mutation.mutate(patient.id);
+	const handleDelete = async () => {
+		const response = await mutation.mutateAsync(patient.id);
+		handleResponse(response);
 	}
 
 	return (
