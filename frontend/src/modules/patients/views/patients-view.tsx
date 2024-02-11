@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 import { useStore } from "@/store";
-import { Button, Page, Spinner } from "@/common/components";
+import { Button, Page } from "@/common/components";
 import { usePatientDetails, usePatientSearch } from "@/patients/hooks";
-import { CreatePatientDialog, PatientList, PatientListSkeletonLoading, PatientSearch } from "@/patients/components";
+import { PatientFormDialog, PatientList, PatientListSkeletonLoading, PatientSearch } from "@/patients/components";
 import Illustration from "@/assets/main-illustration.svg";
 
 export function PatientsView() {
@@ -38,7 +38,7 @@ export function PatientsView() {
 				/>
 			</div>
 
-			<CreatePatientDialog isOpen={isDialogOpen} onOpenChange={setIsDialogOpen} />
+			<PatientFormDialog isOpen={isDialogOpen} onOpenChange={setIsDialogOpen} />
 		</Page>
 	);
 }

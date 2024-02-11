@@ -1,5 +1,5 @@
-import { usePatientForm, usePatients } from "@/patients/hooks";
 import { IPatient, MedicalState } from "@/patients/models";
+import { usePatientForm, usePatients } from "@/patients/hooks";
 import {
 	Select,
 	SelectContent,
@@ -18,13 +18,13 @@ import {
 } from "@/common/components";
 import Illustration from "@/assets/alien-spaceship-illustration.svg";
 
-type CreatePatientDialogProps = {
+type PatientFormDialogProps = {
 	isOpen: boolean;
 	initialData?: IPatient;
 	onOpenChange: (open: boolean) => void;
 }
 
-export function CreatePatientDialog({ isOpen, initialData, onOpenChange }: CreatePatientDialogProps) {
+export function PatientFormDialog({ isOpen, initialData, onOpenChange }: PatientFormDialogProps) {
 	console.log('initial data: ', initialData);
 	const { form, onSubmit, onClose } = usePatientForm(onOpenChange, initialData);
 	const { data } = usePatients();

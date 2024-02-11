@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { Button } from "@/common/components";
 import { IPatient, getMedicalStateName } from "@/patients/models";
-import { CreatePatientDialog } from ".";
+import { PatientFormDialog } from ".";
 
 type PatientDetailsProps = {
 	patient: IPatient;
@@ -35,7 +35,8 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 					<Button variant="contained-danger" className="w-fit" size="small" onClick={() => console.log("Delete")}>Excluir paciente</Button>
 				</div>
 			</div>
-			<CreatePatientDialog isOpen={isDialogOpen} initialData={patient} onOpenChange={setIsDialogOpen} />
+
+			<PatientFormDialog isOpen={isDialogOpen} initialData={patient} onOpenChange={setIsDialogOpen} />
 		</>
 	);
 }
