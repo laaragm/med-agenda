@@ -32,7 +32,7 @@ export function usePatientForm(onOpenChange: (isOpen: boolean) => void, initialD
 				name: "",
 				medicalStateCode: String(MedicalState.Normal),
 				isTermSigned: "false",
-				referenceId: "",
+				referenceId: undefined,
 				periodicityInDays: undefined,
 				phoneNumber: undefined,
 			}
@@ -44,7 +44,6 @@ export function usePatientForm(onOpenChange: (isOpen: boolean) => void, initialD
 			medicalStateCode: Number(data.medicalStateCode),
 			isTermSigned: data.isTermSigned === "true",
 			periodicityInDays: data.periodicityInDays ? Number(data.periodicityInDays) : undefined,
-			referenceId: !!data.referenceId ? data.referenceId : null,
 		};
 	}
 
