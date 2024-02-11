@@ -24,6 +24,7 @@
           "@/*": ["./src/*"],
 		  "@/common/*": ["./src/modules/common/*"],
 		  "@/patients/*": ["./src/modules/patients/*"],
+		  "@/observations/*": ["./src/modules/observations/*"],
       }
   },
   "include": ["src"],
