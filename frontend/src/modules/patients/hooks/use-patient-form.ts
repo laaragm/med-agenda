@@ -16,13 +16,15 @@ const formSchema = z.object({
 	phoneNumber: z.string().optional(),
 });
 
-export function usePatientForm<T extends Object>(onOpenChange: (isOpen: boolean) => void, initialData?: T) {
+type Form = z.infer<typeof formSchema>;
+
+export function usePatientForm(onOpenChange: (isOpen: boolean) => void, initialData?: Form) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const { mutation: create } = useCreatePatient();
-	const form = useForm<z.infer<typeof formSchema>>({
+	const form = useForm<Form>({
 		resolver: zodResolver(formSchema),
 		defaultValues: !!initialData
-			? initialData
+			? { ...initialData, isTermSigned: String(initialData.isTermSigned), medicalStateCode: String(initialData.medicalStateCode) }
 			: {
 				name: "",
 				medicalStateCode: String(MedicalState.Normal),

@@ -31,7 +31,7 @@ const AccordionTrigger = forwardRef<
 		</AccordionPrimitive.Trigger>
 	</AccordionPrimitive.Header>
 ))
-AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName
+AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
 
 const AccordionContent = forwardRef<
   	ElementRef<typeof AccordionPrimitive.Content>,

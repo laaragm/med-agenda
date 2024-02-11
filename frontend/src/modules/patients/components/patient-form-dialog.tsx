@@ -26,7 +26,7 @@ type PatientFormDialogProps = {
 
 export function PatientFormDialog({ isOpen, initialData, onOpenChange }: PatientFormDialogProps) {
 	console.log('initial data: ', initialData);
-	const { form, onSubmit, onClose } = usePatientForm(onOpenChange, initialData);
+	const { form, onSubmit, onClose } = usePatientForm(onOpenChange, initialData as any);
 	const { data } = usePatients();
 	const medicalStateKeys = Object.keys(MedicalState).filter((key) => isNaN(Number(key)));
 
