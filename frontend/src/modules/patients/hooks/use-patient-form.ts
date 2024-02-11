@@ -26,7 +26,12 @@ export function usePatientForm(onOpenChange: (isOpen: boolean) => void, initialD
 	const form = useForm<Form>({
 		resolver: zodResolver(formSchema),
 		defaultValues: !!initialData
-			? { ...initialData, isTermSigned: String(initialData.isTermSigned), medicalStateCode: String(initialData.medicalStateCode) }
+			? {
+				...initialData,
+				isTermSigned: String(initialData.isTermSigned),
+				medicalStateCode: String(initialData.medicalStateCode),
+				periodicityInDays: !!initialData.periodicityInDays ? String(initialData.periodicityInDays) : undefined
+			}
 			: {
 				id: undefined,
 				name: "",
@@ -43,7 +48,7 @@ export function usePatientForm(onOpenChange: (isOpen: boolean) => void, initialD
 			...data,
 			medicalStateCode: Number(data.medicalStateCode),
 			isTermSigned: data.isTermSigned === "true",
-			periodicityInDays: data.periodicityInDays ? Number(data.periodicityInDays) : undefined,
+			periodicityInDays: !!data.periodicityInDays ? Number(data.periodicityInDays?.replace(/[^0-9]/g, '')) : undefined,
 		};
 	}
 

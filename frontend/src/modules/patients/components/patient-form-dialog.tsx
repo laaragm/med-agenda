@@ -85,7 +85,7 @@ export function PatientFormDialog({ initialData, onOpenChange }: PatientFormDial
 							<FormItem>
 								<FormLabel>Periodicidade (em dias)</FormLabel>
 								<FormControl>
-									<TextInput className="py-0 px-2 h-8" value={!!field.value ? Number(field.value) : undefined} onChange={field.onChange} />
+									<TextInput className="py-0 px-2 h-8" value={!!field.value ? field.value : undefined} onChange={field.onChange} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
