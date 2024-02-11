@@ -61,7 +61,7 @@ export function PatientFormDialog({ initialData, onOpenChange }: PatientFormDial
 							<FormItem>
 								<FormLabel>Referência</FormLabel>
 								<FormControl>
-									<Select onValueChange={field.onChange} defaultValue={field.value}>
+									<Select onValueChange={field.onChange} defaultValue={!!field.value ? field.value : undefined}>
 										<SelectTrigger className="py-1 h-8">
 											<SelectValue />
 										</SelectTrigger>
@@ -82,9 +82,9 @@ export function PatientFormDialog({ initialData, onOpenChange }: PatientFormDial
 						name="periodicityInDays"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Periodicidade</FormLabel>
+								<FormLabel>Periodicidade (em dias)</FormLabel>
 								<FormControl>
-									<TextInput className="py-0 px-2 h-8" value={!!field.value ? +field.value : undefined} onChange={field.onChange} type="number" />
+									<TextInput className="py-0 px-2 h-8" value={!!field.value ? Number(field.value) : undefined} onChange={field.onChange} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -141,7 +141,7 @@ export function PatientFormDialog({ initialData, onOpenChange }: PatientFormDial
 							<FormItem>
 								<FormLabel>Telefone</FormLabel>
 								<FormControl>
-									<TextInput className="py-0 px-2 h-8" {...field} />
+									<TextInput className="py-0 px-2 h-8" value={!!field.value ? field.value : undefined} onChange={field.onChange} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
