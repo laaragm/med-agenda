@@ -4,6 +4,6 @@ public sealed record CreatePatientRequest(
 	string Name,
 	int MedicalStateCode,
 	bool IsTermSigned,
-	Guid? ReferencePatientId,
+	Guid? ReferenceId,
 	int? PeriodicityInDays,
 	string? PhoneNumber);

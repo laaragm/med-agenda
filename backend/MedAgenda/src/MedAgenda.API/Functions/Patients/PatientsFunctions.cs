@@ -50,7 +50,7 @@ public class PatientsFunctions : FunctionBase
 				patient.MedicalStateCode,
 				patient.IsTermSigned,
 				createdBy,
-				patient.ReferencePatientId,
+				patient.ReferenceId,
 				patient.PeriodicityInDays,
 				patient.PhoneNumber);
 			var result = await _sender.Send(command, cancellationToken);
@@ -172,7 +172,7 @@ public class PatientsFunctions : FunctionBase
 				patient.MedicalStateCode,
 				patient.IsTermSigned,
 				updatedBy,
-				patient.ReferencePatientId,
+				patient.ReferenceId,
 				patient.PeriodicityInDays,
 				patient.PhoneNumber);
 			var result = await _sender.Send(command, cancellationToken);

@@ -6,6 +6,6 @@ public sealed record UpdatePatientRequest(
 	int MedicalStateCode,
 	bool IsTermSigned,
 	Guid UpdatedBy,
-	Guid? ReferencePatientId,
+	Guid? ReferenceId,
 	int? PeriodicityInDays,
 	string? PhoneNumber);
