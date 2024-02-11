@@ -20,11 +20,13 @@ import Illustration from "@/assets/alien-spaceship-illustration.svg";
 
 type CreatePatientDialogProps = {
 	isOpen: boolean;
+	initialData?: IPatient;
 	onOpenChange: (open: boolean) => void;
 }
 
-export function CreatePatientDialog({ isOpen, onOpenChange }: CreatePatientDialogProps) {
-	const { form, onSubmit, onClose } = usePatientForm(onOpenChange);
+export function CreatePatientDialog({ isOpen, initialData, onOpenChange }: CreatePatientDialogProps) {
+	console.log('initial data: ', initialData);
+	const { form, onSubmit, onClose } = usePatientForm(onOpenChange, initialData);
 	const { data } = usePatients();
 	const medicalStateKeys = Object.keys(MedicalState).filter((key) => isNaN(Number(key)));
 
