@@ -11,7 +11,7 @@ export default function App() {
 		<div className="bg-backgroundColor">
 			<HelmetProvider>
 				<QueryClientProvider client={queryClient}>
-					<RouterProvider router={router} fallbackElement={<Spinner className="w-12 h-12" />} />
+					<RouterProvider router={router} fallbackElement={<Spinner className="w-12 h-12 fixed top-2/4 left-2/4" />} />
 				</QueryClientProvider>
 			</HelmetProvider>
 		</div>
