@@ -7,7 +7,7 @@ import { UpdateObservationRequest } from "@/observations/models";
 
 export function useUpdateObservation() {
     const mutation = useMutation({
-        mutationFn: async ({ patientId, body } : { patientId: string, body: UpdateObservationRequest}) => UpdateObservation(patientId, body),
+        mutationFn: async ({ patientId, body } : { patientId: string, body: UpdateObservationRequest }) => UpdateObservation(patientId, body),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: [QueryKeys.Observations] }),
     });
 

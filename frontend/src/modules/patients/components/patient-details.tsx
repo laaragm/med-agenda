@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Button } from "@/common/components";
 import { handleResponse } from "@/common/utils";
+import { ObservationsDialog } from "@/observations/components";
 import { IPatient, getMedicalStateName } from "@/patients/models";
 import { PatientFormDialog } from "./patient-form-dialog";
 import { useDeletePatient } from "../hooks/use-delete-patient";
@@ -10,6 +11,8 @@ type PatientDetailsProps = {
 	patient: IPatient;
 }
 
+type Dialog = "patient" | "observations" | undefined;
+
 const Item = ({ label, data }: { label: string, data: string | number | undefined }) => (
 	<span className="flex flex-row gap-1 text-base">
 		<span className="font-bold">{label}:</span> {!!data ? data : "Não informado"}
@@ -17,12 +20,20 @@ const Item = ({ label, data }: { label: string, data: string | number | undefine
 );
 
 export function PatientDetails({ patient }: PatientDetailsProps) {
-	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [dialog, setDialog] = useState<Dialog>(undefined);
 	const [isLoading, setIsLoading] = useState(false);
 	const { mutation } = useDeletePatient();
 
 	const handleEdit = () => {
-		setIsDialogOpen(true);
+		setDialog("patient");
+	}
+
+	const handleCloseDialog = () => {
+		setDialog(undefined);
+	}
+
+	const handleShowObservations = () => {
+		setDialog("observations");
 	}
 
 	const handleDelete = async () => {
@@ -44,12 +55,16 @@ export function PatientDetails({ patient }: PatientDetailsProps) {
 				</div>
 				<div className="flex flex-row gap-2">
 					<Button variant="contained-tertiary" size="small" className="w-fit" onClick={handleEdit}>Editar paciente</Button>
-					<Button size="small" className="w-fit" onClick={() => console.log("Show observations")}>Exibir observações</Button>
+					<Button size="small" className="w-fit" onClick={handleShowObservations}>Exibir observações</Button>
 					<Button variant="contained-danger" loading={isLoading} className="w-fit" size="small" onClick={handleDelete}>Excluir paciente</Button>
 				</div>
 			</div>
 
-			{isDialogOpen && <PatientFormDialog initialData={patient} onOpenChange={setIsDialogOpen} />}
+			{dialog === "patient" && <PatientFormDialog initialData={patient} onOpenChange={handleCloseDialog} />}
+
+			{dialog === "observations" && (
+				<ObservationsDialog patientId={patient.id} patientName={patient.name} onOpenChange={handleCloseDialog} />
+			)}
 		</>
 	);
 }

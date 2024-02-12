@@ -1,6 +1,6 @@
 import { Get } from "@/common/services";
-import { FieldValidator, IServiceResponse } from "@/common/models";
 import { IObservation } from "@/observations/models";
+import { FieldValidator, IServiceResponse } from "@/common/models";
 
 
 export async function GetObservations(patientId?: string): Promise<IServiceResponse<IObservation[]>> {

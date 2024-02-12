@@ -28,7 +28,6 @@ export function PatientFormDialog({ initialData, onOpenChange }: PatientFormDial
 	const { data } = usePatients();
 	const medicalStateKeys = Object.keys(MedicalState).filter((key) => isNaN(Number(key)));
 	const title = !!initialData ? "Atualizar paciente" : "Cadastrar novo paciente";
-	console.log(form.getValues());
 
 	return (
 		<Dialog
