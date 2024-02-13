@@ -26,6 +26,7 @@ export function useObservationForm(onOpenChange: (isOpen: boolean) => void, init
 		resolver: zodResolver(formSchema),
 		defaultValues: initialData
 	});
+	const [rowCount, setRowCount] = useState(initialData.observations?.length || 0);
 
 	const onSubmit = async (values: Form) => {
 		setIsSubmitting(true);
@@ -50,5 +51,14 @@ export function useObservationForm(onOpenChange: (isOpen: boolean) => void, init
 		onOpenChange(false);
 	}
 
-	return { form, isSubmitting, onSubmit, onClose };
+	const onAddRow = () => {
+		setRowCount((prevState) => prevState + 1);
+	}
+
+	const onRemoveRow = (index: number) => {
+		setRowCount((prevState) => prevState - 1);
+		form.getValues().observations?.splice(index, 1);
+	}
+
+	return { form, isSubmitting, rowCount, onSubmit, onClose, onAddRow, onRemoveRow };
 }
