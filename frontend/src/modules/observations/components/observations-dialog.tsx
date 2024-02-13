@@ -29,14 +29,14 @@ export function ObservationsDialog({ patientId, patientName, onOpenChange }: Obs
 
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="mt-6 z-50">
-					<ScrollArea showScrollbarOnHover className="space-y-6 max-h-[25.5rem] overflow-y-auto pr-3">
+					<ScrollArea showScrollbarOnHover className="space-y-3 max-h-[23rem] lg:max-h-[26.5rem] overflow-y-auto pr-3">
 					{items.map((_, index) => (
-						<div key={index} className="grid grid-cols-[20%_75%_3%] gap-2">
+						<div key={index} className="lg:grid lg:grid-cols-[20%_75%_3%] gap-2 flex flex-col lg:flex-row">
 							{index === 0 && (
 								<>
-									<FormLabel>Data:</FormLabel>
-									<FormLabel>Observação:</FormLabel>
-									<span></span>
+									<FormLabel className="hidden lg:flex">Data:</FormLabel>
+									<FormLabel className="hidden lg:flex">Observação:</FormLabel>
+									<span className="hidden lg:flex"></span>
 								</>
 							)}
 
@@ -45,6 +45,7 @@ export function ObservationsDialog({ patientId, patientName, onOpenChange }: Obs
 								name={`observations.${index}.date`}
 								render={({ field }) => (
 									<FormItem>
+										<FormLabel className="lg:hidden flex">Data:</FormLabel>
 										<FormControl>
 											<TextInput placeholder="dd/mm/yyyy" className="py-0 px-2 h-8" value={!!field.value ? field.value : undefined} onChange={field.onChange} />
 										</FormControl>
@@ -58,8 +59,9 @@ export function ObservationsDialog({ patientId, patientName, onOpenChange }: Obs
 								name={`observations.${index}.message`}
 								render={({ field }) => (
 									<FormItem>
+										<FormLabel className="lg:hidden flex">Observação:</FormLabel>
 										<FormControl>
-											<TextInput className="py-0 px-2 h-8" value={!!field.value ? field.value : undefined} onChange={field.onChange} />
+											<TextInput placeholder="Descrição do evento" className="py-0 px-2 h-8" value={!!field.value ? field.value : undefined} onChange={field.onChange} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -67,7 +69,10 @@ export function ObservationsDialog({ patientId, patientName, onOpenChange }: Obs
 							/>
 
 							<div className="flex items-center justify-end">
-								<Trash size={22} className="cursor-pointer text-danger" onClick={() => onRemoveRow(index)} />
+								<Trash size={22} className="cursor-pointer text-danger hidden lg:flex" onClick={() => onRemoveRow(index)} />
+								<Button size="small" variant="outlined-danger" className="w-fit lg:hidden" onClick={() => onRemoveRow(index)}>
+									Remover <Trash size={16} />
+								</Button>
 							</div>
 						</div>
 					))}
@@ -75,7 +80,7 @@ export function ObservationsDialog({ patientId, patientName, onOpenChange }: Obs
 
 					{items.length > 0 && (
 						<div>
-							<div className="flex items-end justify-end mt-3">
+							<div className="flex items-end justify-end mt-5 lg:mt-3">
 								<Button size="small" variant="text" className="w-fit underline" onClick={onAddRow}>Adicionar+</Button>
 							</div>
 							<div className="pt-8">
@@ -84,7 +89,7 @@ export function ObservationsDialog({ patientId, patientName, onOpenChange }: Obs
 										alt="Spaceship Illustration"
 										width={100}
 										height={100}
-										className="fixed bottom-3 left-0"
+										className="fixed bottom-3 left-0 invisible lg:visible"
 										aria-hidden="true"
 									/>
 									<Button type="submit" loading={isSubmitting} className="fixed bottom-3 right-5 w-fit px-12">Salvar</Button>
