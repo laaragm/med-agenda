@@ -1,43 +1,32 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
+
+import { ReactNode, useEffect, useRef } from "react";
 import { cn } from "@/common/utils";
-import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 
-const ScrollArea = forwardRef<
-  	ElementRef<typeof ScrollAreaPrimitive.Root>,
-  	ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root>
->(({ className, children, ...props }, ref) => (
-	<ScrollAreaPrimitive.Root
-		ref={ref}
-		className={cn("relative overflow-hidden", className)}
-		{...props}
-	>
-		<ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit]">
+type ScrollAreaProps = {
+	className?: string;
+	showScrollbarOnHover?: boolean;
+	shouldAutoScroll?: boolean;
+	autoScrollRef?: any;
+	children: ReactNode;
+}
+
+export function ScrollArea({ className, showScrollbarOnHover = false, shouldAutoScroll = false, autoScrollRef, children }: ScrollAreaProps) {
+	const divRef = useRef<HTMLDivElement | null>(null);
+
+	useEffect(() => {
+		if (shouldAutoScroll && divRef?.current) {
+			divRef.current.scrollTop = divRef.current.scrollHeight;
+		}
+	}, [autoScrollRef]);
+
+	const baseClassName = "scrollbar scrollbar-thumb-rounded scrollbar-w-[3px] scrollbar-h-[3px]";
+	const baseScrollbarClassName = showScrollbarOnHover
+		? `${baseClassName} hover:scrollbar-thumb-gray-300 hover:scrollbar-track-gray-100`
+		: `${baseClassName} scrollbar-thumb-gray-300 scrollbar-track-gray-100`;
+
+	return (
+		<div ref={divRef} className={cn(baseScrollbarClassName, className)}>
 			{children}
-		</ScrollAreaPrimitive.Viewport>
-		<ScrollBar />
-		<ScrollAreaPrimitive.Corner />
-	</ScrollAreaPrimitive.Root>
-))
-ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName
-
-const ScrollBar = forwardRef<
-  	ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
-  	ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>
->(({ className, orientation = "vertical", ...props }, ref) => (
-	<ScrollAreaPrimitive.ScrollAreaScrollbar
-		ref={ref}
-		orientation={orientation}
-		className={cn(
-			"flex touch-none select-none transition-colors",
-			orientation === "vertical" && "h-full w-2.5 border-l border-l-transparent p-[1px]",
-			orientation === "horizontal" && "h-2.5 flex-col border-t border-t-transparent p-[1px]",
-			className
-		)}
-		{...props}
-	>
-		<ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-border" />
-	</ScrollAreaPrimitive.ScrollAreaScrollbar>
-))
-ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName
-
-export { ScrollArea, ScrollBar }
+		</div>
+	);
+}
