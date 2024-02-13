@@ -3,47 +3,38 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { handleResponse } from "@/common/utils";
-import { useCreateObservation, useUpdateObservation } from "@/observations/hooks";
-import { CreateObservationRequest, UpdateObservationRequest } from "@/observations/models";
+import { formatDate, handleResponse } from "@/common/utils";
+import { CreateObservationRequest } from "@/observations/models";
+import { useCreateObservation, useDeleteObservation } from "@/observations/hooks";
 
 const formSchema = z.object({
 	patientId: z.string(),
-	observations: z.array(z.object({
-		id: z.string().optional().nullable(),
-		date: z.string(),
-		message: z.string(),
-	})).optional().nullable(),
+	message: z.string(),
+	date: z.string().optional().nullable(),
 });
 
-type Form = z.infer<typeof formSchema>;
+export type Form = z.infer<typeof formSchema>;
 
-export function useObservationForm(onOpenChange: (isOpen: boolean) => void, initialData: Form) {
+type Step = "view" | "add";
+
+export function useObservationForm(onOpenChange: (isOpen: boolean) => void, patientId: string) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const { mutation: create } = useCreateObservation();
-	const { mutation: update } = useUpdateObservation();
+	const { mutation: deletion } = useDeleteObservation();
 	const form = useForm<Form>({
 		resolver: zodResolver(formSchema),
-		defaultValues: initialData
+		defaultValues: { patientId, message: "", date: formatDate(new Date().toISOString()) }
 	});
-	const [rowCount, setRowCount] = useState(initialData.observations?.length || 0);
+	const [step, setStep] = useState<Step>("view");
 
 	const onSubmit = async (values: Form) => {
 		setIsSubmitting(true);
-		const isUpdateOperation = !!initialData;
-		let response;
-		if (isUpdateOperation) {
-			response = await update.mutateAsync({ patientId: values.patientId, body: values as UpdateObservationRequest });
-		} else {
-			response = await create.mutateAsync(values as CreateObservationRequest);
-		}
-		if (!response?.error) {
-            onClose();
-        }
+		const response = await create.mutateAsync(values as CreateObservationRequest);
 		setIsSubmitting(false);
 		if (!!response) {
-			handleResponse<any>(response);
+			handleResponse(response);
 		}
+		setStep("view");
 	}
 
 	const onClose = () => {
@@ -51,14 +42,20 @@ export function useObservationForm(onOpenChange: (isOpen: boolean) => void, init
 		onOpenChange(false);
 	}
 
-	const onAddRow = () => {
-		setRowCount((prevState) => prevState + 1);
+	const onAdd = () => {
+		setStep("add");
 	}
 
-	const onRemoveRow = (index: number) => {
-		setRowCount((prevState) => prevState - 1);
-		form.getValues().observations?.splice(index, 1);
+	const onView = () => {
+		setStep("view");
 	}
 
-	return { form, isSubmitting, rowCount, onSubmit, onClose, onAddRow, onRemoveRow };
+	const onDelete = async (id: string) => {
+		setIsSubmitting(true);
+		const response = await deletion.mutateAsync(id);
+		setIsSubmitting(false);
+		handleResponse(response);
+	}
+
+	return { form, isSubmitting, step, onSubmit, onClose, onAdd, onView, onDelete };
 }

@@ -21,15 +21,11 @@ export function handleResponse<T>(response: IServiceResponse<T>, successMessage?
     }
 }
 
-export function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-    const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) {
-            return order;
-        }
-        return a[1] - b[1];
-    });
+export function formatDate(date: string) {
+	const value = new Date(date);
+	const day = value.getDate().toString().padStart(2, '0');
+	const month = (value.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+	const year = value.getFullYear();
 
-    return stabilizedThis.map((el) => el[0]);
-}
+	return `${day}/${month}/${year}`;
+  }
