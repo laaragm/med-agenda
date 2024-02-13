@@ -22,7 +22,7 @@ export function ObservationsDialog({ patientId, patientName, onOpenChange }: Obs
 			<h4 className="font-semibold mt-2">{patientName}</h4>
 
 			{step === "view" && (
-				<ObservationsList patientId={patientId} onAdd={onAdd} onDelete={onDelete} />
+				<ObservationsList patientId={patientId} isSubmitting={isSubmitting} onAdd={onAdd} onDelete={onDelete} />
 			)}
 
 			{step === "add" && (

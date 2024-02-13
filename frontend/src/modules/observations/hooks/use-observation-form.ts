@@ -35,6 +35,7 @@ export function useObservationForm(onOpenChange: (isOpen: boolean) => void, pati
 			handleResponse(response);
 		}
 		setStep("view");
+		form.reset();
 	}
 
 	const onClose = () => {

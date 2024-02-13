@@ -1,17 +1,18 @@
 import { Trash } from "phosphor-react";
 
 import { useObservations } from "@/observations/hooks";
-import { Button, Label, ScrollArea, TextInput } from "@/common/components";
+import { Button, Label, ScrollArea, Spinner, TextInput } from "@/common/components";
 import Illustration from "@/assets/alien-spaceship-illustration.svg";
 import NoContentIllustration from "@/assets/no-content-illustration.svg";
 
 type ObservationsListProps = {
 	patientId: string;
+	isSubmitting: boolean;
 	onAdd: () => void;
 	onDelete: (id: string) => void;
 }
 
-export function ObservationsList({ patientId, onAdd, onDelete }: ObservationsListProps) {
+export function ObservationsList({ patientId, isSubmitting, onAdd, onDelete }: ObservationsListProps) {
 	const { data: observations } = useObservations(patientId);
 
 	return (
@@ -33,39 +34,51 @@ export function ObservationsList({ patientId, onAdd, onDelete }: ObservationsLis
 					</div>
 				</>
 			) : (
-				<ScrollArea showScrollbarOnHover className="space-y-3 max-h-[23rem] lg:max-h-[26.5rem] overflow-y-auto overflow-x-hidden pr-3">
-					{observations?.result?.map((observation, index) => (
-						<div key={observation.id} className="lg:grid lg:grid-cols-[20%_75%_4%] gap-2 flex flex-col lg:flex-row">
-							{index === 0 && (
-								<>
-									<Label>Data:</Label>
-									<Label>Observação:</Label>
-									<span></span>
-								</>
-							)}
-							<TextInput className="py-0 px-2 h-8" value={observation.date} readOnly />
-							<TextInput className="py-0 px-2 h-8" value={observation.message} readOnly />
-							<div className="flex items-center justify-end lg:pt-1">
-								<Trash size={22} className="cursor-pointer text-danger hidden lg:flex" onClick={() => onDelete(observation.id)} />
-								<Button size="small" variant="outlined-danger" className="w-fit lg:hidden" onClick={() => onDelete(observation.id)}>
-									Remover <Trash size={16} />
-								</Button>
+				<>
+					<ScrollArea showScrollbarOnHover className="space-y-3 max-h-[23rem] lg:max-h-[28.5rem] overflow-y-auto overflow-x-hidden pr-3">
+						{observations?.result?.map((observation, index) => (
+							<div key={observation.id} className="lg:grid lg:grid-cols-[20%_75%_3%] gap-2 flex flex-col lg:flex-row">
+								{index === 0 && (
+									<>
+										<Label className="hidden lg:flex">Data:</Label>
+										<Label className="hidden lg:flex">Observação:</Label>
+										<span className="hidden lg:flex"></span>
+									</>
+								)}
+								<div className="flex flex-col gap-1">
+									<Label className="lg:hidden flex">Data:</Label>
+									<TextInput className="py-0 px-2 h-8" value={observation.date} readOnly />
+								</div>
+								<div className="flex flex-col gap-1">
+									<Label className="lg:hidden flex">Observação:</Label>
+									<TextInput className="py-0 px-2 h-8" value={observation.message} readOnly />
+								</div>
+								<div className="flex items-center justify-end">
+									{isSubmitting ? (
+										<Spinner className="w-[22px] h-[22px] hidden lg:flex" />
+									) : (
+										<Trash size={22} className="cursor-pointer text-danger hidden lg:flex" onClick={() => onDelete(observation.id)} />
+									)}
+									<Button size="small" variant="outlined-danger" loading={isSubmitting} className="w-fit lg:hidden" onClick={() => onDelete(observation.id)}>
+										Excluir
+									</Button>
+								</div>
 							</div>
-						</div>
-					))}
-				</ScrollArea>
-			)}
+						))}
+					</ScrollArea>
 
-			<div className="flex flex-row items-center justify-end gap-2">
-				<img
-					src={Illustration}
-					alt="Spaceship Illustration"
-					width={100}
-					height={100}
-					aria-hidden="true"
-				/>
-				<Button className="w-fit px-12" onClick={onAdd}>Adicionar</Button>
-			</div>
+					<div className="flex flex-row items-center justify-end gap-2">
+						<img
+							src={Illustration}
+							alt="Spaceship Illustration"
+							width={100}
+							height={100}
+							aria-hidden="true"
+						/>
+						<Button className="w-fit px-12" onClick={onAdd}>Adicionar</Button>
+					</div>
+				</>
+			)}
 		</div>
 	);
 }

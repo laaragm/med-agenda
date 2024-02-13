@@ -53,8 +53,8 @@ export function ObservationForm({ form, isSubmitting, onView, onSubmit }: Observ
 						height={100}
 						aria-hidden="true"
 					/>
-					<Button variant="contained-danger" className="w-fit px-10" onClick={onView}>Cancelar</Button>
-					<Button type="submit" loading={isSubmitting} className="w-fit px-12">Salvar</Button>
+					<Button variant="contained-danger" className="w-fit lg:px-10" onClick={onView}>Cancelar</Button>
+					<Button type="submit" loading={isSubmitting} className="w-fit lg:px-12">Salvar</Button>
 				</div>
 			</form>
 		</Form>
