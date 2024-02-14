@@ -47,11 +47,11 @@ export function ObservationsList({ patientId, isSubmitting, onAdd, onDelete }: O
 								)}
 								<div className="flex flex-col gap-1">
 									<Label className="lg:hidden flex">Data:</Label>
-									<TextInput className="py-0 px-2 h-8" value={observation.date} readOnly />
+									<TextInput className="py-0 px-2 h-8 cursor-default" value={observation.date} readOnly />
 								</div>
 								<div className="flex flex-col gap-1">
 									<Label className="lg:hidden flex">Observação:</Label>
-									<TextInput className="py-0 px-2 h-8" value={observation.message} readOnly />
+									<TextInput className="py-0 px-2 h-8 cursor-default" value={observation.message} readOnly />
 								</div>
 								<div className="flex items-center justify-end">
 									{isSubmitting ? (

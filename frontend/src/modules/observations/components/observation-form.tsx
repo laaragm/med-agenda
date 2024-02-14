@@ -18,26 +18,12 @@ export function ObservationForm({ form, isSubmitting, onView, onSubmit }: Observ
 				<div className="flex flex-col gap-2">
 					<FormField
 						control={form.control}
-						name="date"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Data:</FormLabel>
-								<FormControl>
-									<TextInput placeholder="dd/mm/yyyy" className="py-0 px-2 h-8" value={!!field.value ? field.value : undefined} onChange={field.onChange} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					<FormField
-						control={form.control}
 						name="message"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Observação:</FormLabel>
 								<FormControl>
-									<TextInput placeholder="Descrição do evento" className="py-0 px-2 h-8" value={!!field.value ? field.value : undefined} onChange={field.onChange} />
+									<TextInput placeholder="Descrição do evento" className="py-0 px-2 h-8" value={field.value} onChange={field.onChange} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>

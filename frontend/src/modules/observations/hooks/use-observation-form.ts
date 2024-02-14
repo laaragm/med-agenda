@@ -3,14 +3,13 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { formatDate, handleResponse } from "@/common/utils";
+import { handleResponse } from "@/common/utils";
 import { CreateObservationRequest } from "@/observations/models";
 import { useCreateObservation, useDeleteObservation } from "@/observations/hooks";
 
 const formSchema = z.object({
 	patientId: z.string(),
 	message: z.string(),
-	date: z.string().optional().nullable(),
 });
 
 export type Form = z.infer<typeof formSchema>;
@@ -23,7 +22,7 @@ export function useObservationForm(onOpenChange: (isOpen: boolean) => void, pati
 	const { mutation: deletion } = useDeleteObservation();
 	const form = useForm<Form>({
 		resolver: zodResolver(formSchema),
-		defaultValues: { patientId, message: "", date: formatDate(new Date().toISOString()) }
+		defaultValues: { patientId, message: "" }
 	});
 	const [step, setStep] = useState<Step>("view");
 
