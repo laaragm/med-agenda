@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using MedAgenda.API.Authorization;
 using MedAgenda.Application.Observations.GetObservations;
 using MedAgenda.Application.Observations.CreateObservation;
 using MedAgenda.Application.Observations.DeleteObservation;
@@ -12,7 +13,8 @@ using MedAgenda.Application.Observations.UpdateObservation;
 
 namespace MedAgenda.API.Functions.Observations;
 
-internal class ObservationsFunctions : FunctionBase
+[Authorize(Scopes = new[] { Scopes.FunctionsAccess }, UserRoles = new[] { UserRoles.Admin })]
+public class ObservationsFunctions : FunctionBase
 {
 	private const string Route = "observations";
 	private readonly ILogger _logger;

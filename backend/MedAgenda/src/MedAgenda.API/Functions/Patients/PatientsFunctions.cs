@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using MedAgenda.API.Authorization;
 using MedAgenda.Application.Patients.GetPatient;
 using MedAgenda.Application.Patients.GetPatients;
 using MedAgenda.Application.Patients.CreatePatient;
@@ -13,6 +14,8 @@ using MedAgenda.Application.Patients.UpdatePatient;
 
 namespace MedAgenda.API.Functions.Patients;
 
+// If an Authorize attribute is placed at class-level, requests to any function within the class must pass the authorization checks
+[Authorize(Scopes = new[] { Scopes.FunctionsAccess }, UserRoles = new[] { UserRoles.Admin })]
 public class PatientsFunctions : FunctionBase
 {
 	private const string Route = "patients";
