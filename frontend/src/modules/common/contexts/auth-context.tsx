@@ -44,7 +44,7 @@ const getUserInfo = (idTokenClaims: Token, name: string, surname: string): IUser
 	fullName: idTokenClaims.name,
 	givenName: name,
 	familyName: surname,
-	roles: idTokenClaims.roles,
+	roles: idTokenClaims.roles || [],
 });
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
@@ -57,6 +57,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 		const { name, surname } = formatName(idTokenClaims);
 		return getUserInfo(idTokenClaims, name, surname);
 	}, [idTokenClaims]);
+
+	console.log('user', user);
 
 	const isAuthenticated = !!user;
 
