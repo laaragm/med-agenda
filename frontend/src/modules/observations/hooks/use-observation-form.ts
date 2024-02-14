@@ -18,6 +18,7 @@ type Step = "view" | "add";
 
 export function useObservationForm(onOpenChange: (isOpen: boolean) => void, patientId: string) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [deleting, setDeleting] = useState<string | undefined>(undefined);
 	const { mutation: create } = useCreateObservation();
 	const { mutation: deletion } = useDeleteObservation();
 	const form = useForm<Form>({
@@ -51,11 +52,11 @@ export function useObservationForm(onOpenChange: (isOpen: boolean) => void, pati
 	}
 
 	const onDelete = async (id: string) => {
-		setIsSubmitting(true);
+		setDeleting(id);
 		const response = await deletion.mutateAsync(id);
-		setIsSubmitting(false);
+		setDeleting(undefined);
 		handleResponse(response);
 	}
 
-	return { form, isSubmitting, step, onSubmit, onClose, onAdd, onView, onDelete };
+	return { form, isSubmitting, deleting, step, onSubmit, onClose, onAdd, onView, onDelete };
 }

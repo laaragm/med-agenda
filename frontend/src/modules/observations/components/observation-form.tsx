@@ -23,7 +23,7 @@ export function ObservationForm({ form, isSubmitting, onView, onSubmit }: Observ
 							<FormItem>
 								<FormLabel>Observação:</FormLabel>
 								<FormControl>
-									<TextInput placeholder="Descrição do evento" className="py-0 px-2 h-8" value={field.value} onChange={field.onChange} />
+									<TextInput className="py-0 px-2 h-8" value={field.value} onChange={field.onChange} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>

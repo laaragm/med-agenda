@@ -7,12 +7,12 @@ import NoContentIllustration from "@/assets/no-content-illustration.svg";
 
 type ObservationsListProps = {
 	patientId: string;
-	isSubmitting: boolean;
+	deleting: string | undefined;
 	onAdd: () => void;
 	onDelete: (id: string) => void;
 }
 
-export function ObservationsList({ patientId, isSubmitting, onAdd, onDelete }: ObservationsListProps) {
+export function ObservationsList({ patientId, deleting, onAdd, onDelete }: ObservationsListProps) {
 	const { data: observations } = useObservations(patientId);
 
 	return (
@@ -54,12 +54,12 @@ export function ObservationsList({ patientId, isSubmitting, onAdd, onDelete }: O
 									<TextInput className="py-0 px-2 h-8 cursor-default" value={observation.message} readOnly />
 								</div>
 								<div className="flex items-center justify-end">
-									{isSubmitting ? (
+									{deleting === observation.id ? (
 										<Spinner className="w-[22px] h-[22px] hidden lg:flex" />
 									) : (
 										<Trash size={22} className="cursor-pointer text-danger hidden lg:flex" onClick={() => onDelete(observation.id)} />
 									)}
-									<Button size="small" variant="outlined-danger" loading={isSubmitting} className="w-fit lg:hidden" onClick={() => onDelete(observation.id)}>
+									<Button size="small" variant="outlined-danger" loading={deleting === observation.id} className="w-fit lg:hidden" onClick={() => onDelete(observation.id)}>
 										Excluir
 									</Button>
 								</div>

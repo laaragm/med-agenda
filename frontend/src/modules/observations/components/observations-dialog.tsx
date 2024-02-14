@@ -9,7 +9,7 @@ type ObservationsDialogProps = {
 }
 
 export function ObservationsDialog({ patientId, patientName, onOpenChange }: ObservationsDialogProps) {
-	const { form, isSubmitting, step, onSubmit, onClose, onAdd, onView, onDelete } = useObservationForm(onOpenChange, patientId);
+	const { form, isSubmitting, deleting, step, onSubmit, onClose, onAdd, onView, onDelete } = useObservationForm(onOpenChange, patientId);
 
 	return (
 		<Dialog
@@ -22,7 +22,7 @@ export function ObservationsDialog({ patientId, patientName, onOpenChange }: Obs
 			<h4 className="font-semibold mt-2">{patientName}</h4>
 
 			{step === "view" && (
-				<ObservationsList patientId={patientId} isSubmitting={isSubmitting} onAdd={onAdd} onDelete={onDelete} />
+				<ObservationsList patientId={patientId} deleting={deleting} onAdd={onAdd} onDelete={onDelete} />
 			)}
 
 			{step === "add" && (
