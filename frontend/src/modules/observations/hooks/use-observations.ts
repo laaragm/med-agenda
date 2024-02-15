@@ -13,7 +13,7 @@ export function useObservations(patientId?: string) {
 		queryFn: () => GetObservations(patientId),
 		select: transformData,
 		staleTime: 1000 * 60 * 5, // 5 minutes
-		// enabled: !!user,
+		enabled: !!user,
 	}) as UseQueryResult<IServiceResponse<IObservation[]>>;
 
 	return { data, isLoading, isFetching, error, refetch };

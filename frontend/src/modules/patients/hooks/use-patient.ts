@@ -12,7 +12,7 @@ export function usePatient(id: string) {
 	  queryKey: [QueryKeys.Patients, id],
 	  queryFn: () => GetPatient(id),
 	  staleTime: 1000 * 60 * 3, // 3 minutes
-	  enabled: !isStringNullOrEmpty(id), // !!user,
+	  enabled: !isStringNullOrEmpty(id) && !!user,
 	}) as UseQueryResult<IServiceResponse<IPatient>>;
 
 	return { data, isLoading, isFetching, error, refetch };
