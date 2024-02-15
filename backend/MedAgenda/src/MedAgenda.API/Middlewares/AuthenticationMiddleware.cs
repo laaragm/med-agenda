@@ -32,14 +32,14 @@ public class AuthenticationMiddleware : IFunctionsWorkerMiddleware
 		if (!TryGetTokenFromHeaders(context, out var token))
 		{
 			// Unable to get token from headers
-			context.SetHttpResponseStatusCode(HttpStatusCode.Unauthorized);
+			await context.SetHttpResponseStatusCode(HttpStatusCode.Unauthorized);
 			return;
 		}
 
 		if (!_tokenValidator.CanReadToken(token))
 		{
 			// Token is malformed
-			context.SetHttpResponseStatusCode(HttpStatusCode.Unauthorized);
+			await context.SetHttpResponseStatusCode(HttpStatusCode.Unauthorized);
 			return;
 		}
 
@@ -63,14 +63,14 @@ public class AuthenticationMiddleware : IFunctionsWorkerMiddleware
 		catch (SecurityTokenException)
 		{
 			// Token is not valid (expired etc.)
-			context.SetHttpResponseStatusCode(HttpStatusCode.Unauthorized);
+			await context.SetHttpResponseStatusCode(HttpStatusCode.Unauthorized);
 			return;
 		}
 	}
 
 	private static bool TryGetTokenFromHeaders(FunctionContext context, out string token)
 	{
-		token = null;
+		token = null!;
 		// HTTP headers are in the binding context as a JSON object
 		// The first checks ensure that we have the JSON string
 		if (!context.BindingContext.BindingData.TryGetValue("Headers", out var headersObj))
@@ -81,7 +81,7 @@ public class AuthenticationMiddleware : IFunctionsWorkerMiddleware
 
 		// Deserialize headers from JSON
 		var headers = JsonSerializer.Deserialize<Dictionary<string, string>>(headersStr);
-		var normalizedKeyHeaders = headers.ToDictionary(h => h.Key.ToLowerInvariant(), h => h.Value);
+		var normalizedKeyHeaders = headers!.ToDictionary(h => h.Key.ToLowerInvariant(), h => h.Value);
 		if (!normalizedKeyHeaders.TryGetValue("authorization", out var authHeaderValue))
 			return false; // No authorization header present
 
