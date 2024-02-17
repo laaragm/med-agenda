@@ -10,6 +10,10 @@ using MedAgenda.Application.Observations.GetObservations;
 using MedAgenda.Application.Observations.CreateObservation;
 using MedAgenda.Application.Observations.DeleteObservation;
 using MedAgenda.Application.Observations.UpdateObservation;
+using System.Security.Claims;
+using Microsoft.Extensions.Primitives;
+using System.IdentityModel.Tokens.Jwt;
+using MedAgenda.API.Extensions;
 
 namespace MedAgenda.API.Functions.Observations;
 
@@ -45,7 +49,7 @@ public class ObservationsFunctions : FunctionBase
 				return await StringResponse(req, "Error deserializing observation", HttpStatusCode.BadRequest);
 			}
 
-			var createdBy = Guid.NewGuid(); // TODO: Get info from token
+			var createdBy = req.Headers.ExtractOid();
 			var command = new CreateObservationCommand(observation.PatientId, observation.Message, createdBy);
 			var result = await _sender.Send(command, cancellationToken);
 
@@ -139,7 +143,7 @@ public class ObservationsFunctions : FunctionBase
 				return await StringResponse(req, message, HttpStatusCode.BadRequest);
 			}
 
-			var updatedBy = Guid.NewGuid(); // TODO: Get info from token
+			var updatedBy = req.Headers.ExtractOid();
 			var command = new UpdateObservationCommand(id, observation.Message, updatedBy);
 			var result = await _sender.Send(command, cancellationToken);
 

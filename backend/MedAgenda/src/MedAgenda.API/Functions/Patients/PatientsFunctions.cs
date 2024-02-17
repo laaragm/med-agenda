@@ -11,6 +11,7 @@ using MedAgenda.Application.Patients.GetPatients;
 using MedAgenda.Application.Patients.CreatePatient;
 using MedAgenda.Application.Patients.DeletePatient;
 using MedAgenda.Application.Patients.UpdatePatient;
+using MedAgenda.API.Extensions;
 
 namespace MedAgenda.API.Functions.Patients;
 
@@ -47,7 +48,7 @@ public class PatientsFunctions : FunctionBase
 				return await StringResponse(req, "Error deserializing patient", HttpStatusCode.BadRequest);
 			}
 
-			var createdBy = Guid.NewGuid(); // TODO: Get info from token
+			var createdBy = req.Headers.ExtractOid();
 			var command = new CreatePatientCommand(
 				patient.Name,
 				patient.MedicalStateCode,
@@ -168,7 +169,7 @@ public class PatientsFunctions : FunctionBase
 				return await StringResponse(req, "Error deserializing patient", HttpStatusCode.BadRequest);
 			}
 
-			var updatedBy = Guid.NewGuid(); // TODO: Get info from token
+			var updatedBy = req.Headers.ExtractOid();
 			var command = new UpdatePatientCommand(
 				id,
 				patient.Name,
