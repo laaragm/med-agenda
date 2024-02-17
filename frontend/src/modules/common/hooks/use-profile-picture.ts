@@ -2,7 +2,6 @@ import { AccountInfo } from "@azure/msal-browser";
 import { useAccount, useMsal } from "@azure/msal-react";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 
-import { isStringNullOrEmpty } from "@/common/utils";
 import { graphLoginRequest, msalInstance, servicesConfig } from "@/authentication";
 import { useAuth } from "./use-auth";
 import { GraphService } from "../services";
@@ -16,7 +15,7 @@ export function useProfilePicture(userId?: string) {
 		queryKey: [QueryKeys.ProfilePicture, userId],
 		queryFn: () => GetAvatarImage(currentAccount, userId),
 		staleTime: 1000 * 60 * 5, // 5 minutes
-		enabled: !!user && !isStringNullOrEmpty(userId) && !!currentAccount,
+		enabled: !!user && !!currentAccount,
 	}) as UseQueryResult<string, unknown>;
 
     return { data, isLoading, isFetching, error, refetch };
