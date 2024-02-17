@@ -5,4 +5,5 @@ export interface IUser {
     familyName: string;
     email: string;
     roles: string[];
+	initials: string;
 }

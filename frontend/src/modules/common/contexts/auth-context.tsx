@@ -45,6 +45,7 @@ const getUserInfo = (idTokenClaims: Token, name: string, surname: string): IUser
 	givenName: name,
 	familyName: surname,
 	roles: idTokenClaims.roles || [],
+	initials: name.length > 0 && surname.length > 0 ? `${name[0]}${surname[0]}` : "",
 });
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
