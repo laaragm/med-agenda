@@ -5,15 +5,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using MedAgenda.API.Extensions;
 using MedAgenda.API.Authorization;
 using MedAgenda.Application.Observations.GetObservations;
 using MedAgenda.Application.Observations.CreateObservation;
 using MedAgenda.Application.Observations.DeleteObservation;
 using MedAgenda.Application.Observations.UpdateObservation;
-using System.Security.Claims;
-using Microsoft.Extensions.Primitives;
-using System.IdentityModel.Tokens.Jwt;
-using MedAgenda.API.Extensions;
 
 namespace MedAgenda.API.Functions.Observations;
 

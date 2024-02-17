@@ -5,13 +5,13 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using MedAgenda.API.Extensions;
 using MedAgenda.API.Authorization;
 using MedAgenda.Application.Patients.GetPatient;
 using MedAgenda.Application.Patients.GetPatients;
 using MedAgenda.Application.Patients.CreatePatient;
 using MedAgenda.Application.Patients.DeletePatient;
 using MedAgenda.Application.Patients.UpdatePatient;
-using MedAgenda.API.Extensions;
 
 namespace MedAgenda.API.Functions.Patients;
 
