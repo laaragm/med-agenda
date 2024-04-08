@@ -32,7 +32,7 @@ public class PatientsFunctions : FunctionBase
 	}
 
 	[Function(nameof(CreatePatient))]
-	public async Task<HttpResponseData> CreatePatient([HttpTrigger(AuthorizationLevel.Function, "POST", Route = Route)]
+	public async Task<HttpResponseData> CreatePatient([HttpTrigger(AuthorizationLevel.Anonymous, "POST", Route = Route)]
 		HttpRequestData req,
 		FunctionContext context,
 		CancellationToken cancellationToken)
@@ -72,7 +72,7 @@ public class PatientsFunctions : FunctionBase
 	}
 
 	[Function(nameof(GetPatients))]
-	public async Task<HttpResponseData> GetPatients([HttpTrigger(AuthorizationLevel.Function, "GET", Route = Route)]
+	public async Task<HttpResponseData> GetPatients([HttpTrigger(AuthorizationLevel.Anonymous, "GET", Route = Route)]
 		HttpRequestData req,
 		FunctionContext context,
 		CancellationToken cancellationToken)
@@ -100,7 +100,7 @@ public class PatientsFunctions : FunctionBase
 	}
 
 	[Function(nameof(DeletePatient))]
-	public async Task<HttpResponseData> DeletePatient([HttpTrigger(AuthorizationLevel.Function, "DELETE", Route = Route + "/{id}")]
+	public async Task<HttpResponseData> DeletePatient([HttpTrigger(AuthorizationLevel.Anonymous, "DELETE", Route = Route + "/{id}")]
 		HttpRequestData req,
 		FunctionContext context,
 		Guid id,
@@ -126,7 +126,7 @@ public class PatientsFunctions : FunctionBase
 	}
 
 	[Function(nameof(GetPatient))]
-	public async Task<HttpResponseData> GetPatient([HttpTrigger(AuthorizationLevel.Function, "GET", Route = Route + "/{id}")]
+	public async Task<HttpResponseData> GetPatient([HttpTrigger(AuthorizationLevel.Anonymous, "GET", Route = Route + "/{id}")]
 		HttpRequestData req,
 		FunctionContext context,
 		Guid id,
@@ -152,7 +152,7 @@ public class PatientsFunctions : FunctionBase
 	}
 
 	[Function(nameof(UpdatePatient))]
-	public async Task<HttpResponseData> UpdatePatient([HttpTrigger(AuthorizationLevel.Function, "PATCH", Route = Route + "/{id}")]
+	public async Task<HttpResponseData> UpdatePatient([HttpTrigger(AuthorizationLevel.Anonymous, "PATCH", Route = Route + "/{id}")]
 		HttpRequestData req,
 		FunctionContext context,
 		Guid id,

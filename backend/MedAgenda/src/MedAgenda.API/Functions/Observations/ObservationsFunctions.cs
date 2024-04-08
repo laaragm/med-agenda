@@ -30,7 +30,7 @@ public class ObservationsFunctions : FunctionBase
 	}
 
 	[Function(nameof(CreateObservation))]
-	public async Task<HttpResponseData> CreateObservation([HttpTrigger(AuthorizationLevel.Function, "POST", Route = Route)]
+	public async Task<HttpResponseData> CreateObservation([HttpTrigger(AuthorizationLevel.Anonymous, "POST", Route = Route)]
 		HttpRequestData req,
 		FunctionContext context,
 		CancellationToken cancellationToken)
@@ -63,7 +63,7 @@ public class ObservationsFunctions : FunctionBase
 	}
 
 	[Function(nameof(GetObservations))]
-	public async Task<HttpResponseData> GetObservations([HttpTrigger(AuthorizationLevel.Function, "GET", Route = Route)]
+	public async Task<HttpResponseData> GetObservations([HttpTrigger(AuthorizationLevel.Anonymous, "GET", Route = Route)]
 		HttpRequestData req,
 		FunctionContext context,
 		CancellationToken cancellationToken)
@@ -96,7 +96,7 @@ public class ObservationsFunctions : FunctionBase
 	}
 
 	[Function(nameof(DeleteObservation))]
-	public async Task<HttpResponseData> DeleteObservation([HttpTrigger(AuthorizationLevel.Function, "DELETE", Route = Route + "/{id}")]
+	public async Task<HttpResponseData> DeleteObservation([HttpTrigger(AuthorizationLevel.Anonymous, "DELETE", Route = Route + "/{id}")]
 		HttpRequestData req,
 		FunctionContext context,
 		Guid id,
@@ -122,7 +122,7 @@ public class ObservationsFunctions : FunctionBase
 	}
 
 	[Function(nameof(UpdateObservation))]
-	public async Task<HttpResponseData> UpdateObservation([HttpTrigger(AuthorizationLevel.Function, "PATCH", Route = Route + "/{id}")]
+	public async Task<HttpResponseData> UpdateObservation([HttpTrigger(AuthorizationLevel.Anonymous, "PATCH", Route = Route + "/{id}")]
 		HttpRequestData req,
 		FunctionContext context,
 		Guid id,
