@@ -11,16 +11,15 @@ using MedAgenda.API.Middlewares;
 
 IConfiguration config = null!;
 var host = new HostBuilder()
-	.ConfigureFunctionsWorkerDefaults()
-	//.ConfigureFunctionsWorkerDefaults(builder =>
-	//{
-	//	builder.UseMiddleware<AuthenticationMiddleware>();
-	//	builder.UseMiddleware<AuthorizationMiddleware>();
-	//})
+	.ConfigureFunctionsWorkerDefaults(builder =>
+	{
+		builder.UseMiddleware<AuthenticationMiddleware>();
+		builder.UseMiddleware<AuthorizationMiddleware>();
+	})
 	.ConfigureAppConfiguration(builder =>
 	{
 		builder
-			.AddJsonFile("local.settings.json", true, true)
+			.AddJsonFile("local.settings.json", true, false)
 			.AddEnvironmentVariables();
 		config = builder.Build();
 	})
