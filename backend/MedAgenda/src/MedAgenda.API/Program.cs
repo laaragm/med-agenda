@@ -11,6 +11,7 @@ using MedAgenda.API.Middlewares;
 
 IConfiguration config = null!;
 var host = new HostBuilder()
+	.ConfigureFunctionsWorkerDefaults()
 	//.ConfigureFunctionsWorkerDefaults(builder =>
 	//{
 	//	builder.UseMiddleware<AuthenticationMiddleware>();
