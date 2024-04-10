@@ -14,7 +14,7 @@ using MedAgenda.Application.Observations.UpdateObservation;
 
 namespace MedAgenda.API.Functions.Observations;
 
-[Authorize(Scopes = new[] { Scopes.FunctionsAccess }, UserRoles = new[] { UserRoles.Admin })]
+//[Authorize(Scopes = new[] { Scopes.FunctionsAccess }, UserRoles = new[] { UserRoles.Admin })]
 public class ObservationsFunctions : FunctionBase
 {
 	private const string Route = "observations";
