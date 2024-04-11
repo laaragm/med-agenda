@@ -59,8 +59,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 		return getUserInfo(idTokenClaims, name, surname);
 	}, [idTokenClaims]);
 
-	console.log('user', user);
-
 	const isAuthenticated = !!user;
 
 	return <AuthContext.Provider value={{ isAuthenticated, user }}>{children}</AuthContext.Provider>;

@@ -32,7 +32,6 @@ async function GetAvatarImage(currentAccount: AccountInfo | null, userId?: strin
             ...graphLoginRequest,
             account: currentAccount,
         });
-        console.log("authResult", authResult);
         const responseBlob = await GraphService(endpoint, authResult.accessToken);
         if (!!responseBlob) {
             blobUrl = URL.createObjectURL(responseBlob);
