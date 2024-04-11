@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "engines": {
-	"node": "18.x"
+    "node": "18.x"
   },
   "dependencies": {
     "@azure/msal-browser": "^3.7.1",
@@ -30,6 +30,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "jwt-decode": "^4.0.0",
+    "phosphor-react": "^1.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.4",
