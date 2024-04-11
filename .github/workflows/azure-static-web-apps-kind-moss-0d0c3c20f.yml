@@ -32,6 +32,11 @@ jobs:
           app_location: "/frontend"
           api_location: ""
           output_location: "dist"
+        env:
+          VITE_API_BASE_URL: ${{ secrets.AZURE_STATIC_WEB_APPS_KIND_MOSS_0D0C3C20F_API_BASE_URL }} 
+          VITE_MSAL_TENANT_ID: ${{ secrets.AZURE_STATIC_WEB_APPS_KIND_MOSS_0D0C3C20F_TENANT_ID }}
+          VITE_MSAL_CLIENT_APP_ID: ${{ secrets.AZURE_STATIC_WEB_APPS_KIND_MOSS_0D0C3C20F_CLIENT_APP_ID }}
+          VITE_MSAL_SERVER_APP_ID: ${{ secrets.AZURE_STATIC_WEB_APPS_KIND_MOSS_0D0C3C20F_SERVER_APP_ID }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
