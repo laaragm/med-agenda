@@ -16,7 +16,7 @@ using MedAgenda.Application.Patients.UpdatePatient;
 namespace MedAgenda.API.Functions.Patients;
 
 // If an Authorize attribute is placed at class-level, requests to any function within the class must pass the authorization checks
-// [Authorize(Scopes = new[] { Scopes.FunctionsAccess }, UserRoles = new[] { UserRoles.Admin })]
+[Authorize(Scopes = new[] { Scopes.FunctionsAccess }, UserRoles = new[] { UserRoles.Admin })]
 public class PatientsFunctions : FunctionBase
 {
 	private const string Route = "patients";
